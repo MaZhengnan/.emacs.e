@@ -2,6 +2,17 @@
 ;; From Scratch streams.
 
 ;; Don't use my own package folder by accident
-(setq package-user-dir "C:\\SPB_Data\\.emacs.e\\packages")
+(cond
+ ;; For macOS
+ ((eq system-type 'darwin)
+  (setq package-user-dir "~/.emacs.e/packages"))
+
+ ;; For Linux
+ ((eq system-type 'gnu/linux)
+  (setq package-user-dir "~/.emacs.e/packages"))
+
+ ;; For Windows
+ ((eq system-type 'windows-nt)
+  (setq package-user-dir "C:\\SPB_Data\\.emacs.e\\packages")))
 
 (setq runemacs/default-font-size 280)
