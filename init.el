@@ -14,7 +14,7 @@
 (setq visible-bell t)
 
 ;;(set-face-attribute 'default nil :font "Fira Code Retina" :height runemacs/default-font-size)
-
+(set-face-attribute 'default nil :font "FiraMono Nerd Font" :height 130)
 ;; Make ESC quit prompts
 (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
 (setq package-user-dir "~/.emacs.e/packages/")
@@ -80,7 +80,7 @@
 
 (use-package doom-modeline
   :ensure t
-  :hook (after-init . doom-modeline-mode))
+  :init (doom-modeline-mode 1))
 
 (use-package doom-themes
   :init (load-theme 'doom-dracula t))
