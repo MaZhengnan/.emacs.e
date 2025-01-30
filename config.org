@@ -1,0 +1,370 @@
+#+TITLE Emacs Configuration
+
+* Basic Cofiguration
+This part is consist of 'Basic', 'UI', 'Search' and so on.
+** Basic Configura
+#+BEGIN_SRC emacs-lisp :tangle ./config.el
+    ;;------------------------Startup------------------------
+    (scroll-bar-mode -1)        ; Disable visible scrollbar
+    (tool-bar-mode -1)          ; Disable the toolbar
+    (tooltip-mode -1)           ; Disable tooltips
+    (menu-bar-mode -1)            ; Disable the menu bar
+    (set-fringe-mode 10)        ; Give some breathing room
+    (setq inhibit-startup-message t)
+  (blink-cursor-mode -1)  ;; 禁用光标闪烁
+    (setq visible-bell nil)
+    (column-number-mode)
+    (global-display-line-numbers-mode t)
+    (setq ring-bell-function 'ignore)
+
+    (set-face-attribute 'default nil :font "FiraMono Nerd Font" :height 160)
+    (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+    (setq package-user-dir "~/.emacs.e/packages/")
+  (recentf-mode 1)  ;; 启用 recentf 记录最近打开的文件
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 50)
+(run-with-idle-timer 30 t 'recentf-save-list) ;; 定期保存 recentf 列表
+
+#+END_SRC
+
+** Package Management
+#+BEGIN_SRC emacs-lisp :tangle ./config.el
+(require 'package)
+
+(setq package-archives '(("melpa" . "https://melpa.org/packages/")
+                         ("org" . "https://orgmode.org/elpa/")
+                         ("elpa" . "https://elpa.gnu.org/packages/")))
+
+(package-initialize)
+(unless package-archive-contents
+ (package-refresh-contents))
+
+;; Initialize use-package on non-Linux platforms
+(unless (package-installed-p 'use-package)
+   (package-install 'use-package))
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
+#+END_SRC
+
+* Search Enhanced
+Using 'ivy', 'swiper' and 'counsel'.
+#+BEGIN_SRC emacs-lisp :tangle ./config.el
+(use-package ivy
+  :diminish
+  :bind (("C-s" . swiper) ;; 搜索当前缓冲区
+         :map ivy-minibuffer-map
+         ("TAB" . ivy-alt-done)
+         ("C-j" . ivy-next-line)
+         ("C-k" . ivy-previous-line)
+         :map ivy-switch-buffer-map
+         ("C-k" . ivy-previous-line)
+         ("C-l" . ivy-done))
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "%d/%d " ;; 显示候选项计数
+        enable-recursive-minibuffers t))
+
+(use-package counsel
+  :after ivy
+  :bind (("M-x" . counsel-M-x) ;; 替代默认 M-x
+         ("C-x C-f" . counsel-find-file) ;; 查找文件
+         ("C-x b" . ivy-switch-buffer) ;; 切换缓冲区
+         ("C-x C-r" . counsel-recentf)) ;; 最近文件
+  :config
+  (setq counsel-find-file-ignore-regexp "\\`\\.")) ;; 忽略隐藏文件
+
+(use-package swiper
+  :after ivy
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper-isearch-backward))) ;; 向后搜索
+(use-package ivy-posframe
+  :after ivy
+  :config
+  (setq ivy-posframe-display-functions-alist
+        '((swiper          . ivy-posframe-display-at-frame-center)
+          (complete-symbol . ivy-posframe-display-at-point)
+          (t               . ivy-posframe-display-at-frame-center)))
+  (setq ivy-posframe-parameters
+        '((left-fringe . 10)
+          (right-fringe . 10)))
+  (ivy-posframe-mode 1))
+;; 让 `M-x` 显示更多信息
+(setq ivy-rich-display-transformers-list
+      '(counsel-M-x
+        (:columns
+         ((counsel-M-x-transformer (:width 40)) ;; 显示命令名称
+          (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))))
+
+(use-package ivy-rich
+  :after ivy
+  :config
+  (ivy-rich-mode 1)) ;; 启用额外信息显示
+
+#+END_SRC
+
+* UI
+This part includes theme, mode line,dashmode and treemacs.
+#+BEGIN_SRC emacs-lisp :tangle ./config.el
+;;------------------------UI------------------------
+(use-package all-the-icons)
+
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+
+(use-package doom-themes
+  :init (load-theme 'doom-dracula t))
+
+(use-package rainbow-delimiters
+  :hook (prog-mode . rainbow-delimiters-mode))
+
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook)  ;; 让 Dashboard 在 Emacs 启动时运行
+  (setq inhibit-startup-message t)  ;; 禁用默认启动信息
+  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))  ;; 启动 Emacs 时直接进入 Dashboard
+
+  ;; 设置 Logo（可以用 Emacs 官方 Logo，也可以用 Doom Emacs 风格的 ASCII 画）
+  (setq dashboard-startup-banner 'official) ;; 'official 代表使用 Emacs 官方 Logo
+  ;; (setq dashboard-startup-banner "~/.emacs.d/doom-ascii.txt") ;; 自定义 ASCII 画（可选）
+
+  ;; 设置 Dashboard 需要显示的内容
+  (setq dashboard-items '((recents  . 5)   ;; 显示最近打开的 5 个文件
+                          (bookmarks . 5)  ;; 显示书签
+                          (projects . 5)   ;; 显示 Projectile 项目
+                          (agenda . 5)))   ;; 显示最近的日程安排
+
+  ;; 启用 UI 美化
+  (setq dashboard-set-heading-icons t)  ;; 显示标题前的小图标
+  (setq dashboard-set-file-icons t)     ;; 显示文件前的小图标
+  (setq dashboard-set-navigator t)      ;; 显示快捷键导航
+  (setq dashboard-center-content t)     ;; 让 Dashboard 内容居中
+)
+
+;; 启用 all-the-icons，让 UI 更现代化
+(use-package all-the-icons
+  :ensure t)
+(setq dashboard-icon-type 'all-the-icons) ;; 启用文件图标
+
+;; 让 Emacs 直接启动 Dashboard，而不是 `*scratch*`
+(setq inhibit-startup-message t)
+(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+
+#+END_SRC
+
+* Org-mode
+
+#+BEGIN_SRC emacs-lisp :tangle ./config.el
+    ;; ------------------ 基础设置 ------------------
+    (setq org-hide-emphasis-markers t)  ;; 隐藏 *强调* /斜体/ 代码块的标记
+    (setq org-startup-indented t)       ;; 自动缩进
+    (setq org-ellipsis " ▼ ")           ;; 折叠标记
+
+    ;; 美化标题
+    (use-package org-modern
+      :ensure t
+      :hook (org-mode . org-modern-mode))
+
+    ;; ------------------ 界面美化 ------------------
+    (use-package org-superstar
+      :ensure t
+      :hook (org-mode . org-superstar-mode)
+      :config
+      (setq org-superstar-headline-bullets-list '("◉" "○" "◆" "▶")))
+
+    ;; 配置字体
+    (set-face-attribute 'default nil :font "Fira Code" :height 140)
+    (set-face-attribute 'org-document-title nil :height 180 :weight 'bold)
+
+  (custom-set-faces
+   ;; 让不同层级的标题有不同的字体大小和颜色
+   '(org-level-1 ((t (:inherit outline-1 :height 1.6 :bold t :foreground "#ff79c6"))))
+   '(org-level-2 ((t (:inherit outline-2 :height 1.4 :bold t :foreground "#50fa7b"))))
+   '(org-level-3 ((t (:inherit outline-3 :height 1.2 :bold t :foreground "#8be9fd"))))
+   '(org-level-4 ((t (:inherit outline-4 :height 1.1 :bold t :foreground "#f1fa8c"))))
+   '(org-level-5 ((t (:inherit outline-5 :height 1.05 :bold t :foreground "#bd93f9"))))
+   '(org-level-6 ((t (:inherit outline-6 :height 1.0 :bold t :foreground "#ffb86c"))))
+   '(org-level-7 ((t (:inherit outline-7 :height 1.0 :bold t :foreground "#ff5555"))))
+   '(org-level-8 ((t (:inherit outline-8 :height 1.0 :bold t :foreground "#6272a4")))))
+
+    ;; ------------------ 代码块优化 ------------------
+  (setq org-src-fontify-natively t) ;; 代码块高亮
+  (setq org-src-tab-acts-natively t) ;; 代码块内的 tab 也能缩进
+  (setq org-confirm-babel-evaluate nil) ;; 运行代码块不需要确认
+
+
+    ;; 让代码块的背景更明显
+    (use-package org
+      :config
+      (set-face-attribute 'org-block nil :background "#282c34" :foreground "#bbc2cf"))
+
+    ;; 让代码块显示行号
+    (use-package display-line-numbers
+      :hook (org-src-mode . display-line-numbers-mode))
+
+    ;; ------------------ Org Babel 代码执行 ------------------
+    (use-package ob-async :ensure t) ;; 允许异步执行代码块
+    (use-package ob-python :ensure nil)
+    (use-package ob-shell :ensure nil)
+    (use-package ob-C :ensure nil)
+
+    ;; 允许执行的代码语言
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((python . t)   ;; 运行 Python 代码
+       (shell . t)    ;; 运行 shell 代码
+       (C . t)        ;; 运行 C 语言代码
+       (emacs-lisp . t))) ;; 运行 Emacs Lisp 代码
+
+    ;; ------------------ 表格优化 ------------------
+    (use-package valign
+      :ensure t
+      :hook (org-mode . valign-mode))  ;; 让表格对齐更美观
+
+    ;; ------------------ 导出优化（PDF、HTML） ------------------
+    (use-package ox-pandoc :ensure t) ;; 使用 Pandoc 作为导出后端
+    (use-package ox-hugo :ensure t)   ;; 让 Org Mode 支持 Hugo 博客导出
+
+    ;; 让导出的 HTML 更好看
+    (setq org-html-head-extra
+          "<style>
+          body { font-family: 'Fira Code', sans-serif; line-height: 1.6; }
+          h1, h2, h3 { font-weight: bold; }
+          pre { background-color: #282c34; color: #abb2bf; padding: 10px; border-radius: 5px; }
+          table { border-collapse: collapse; width: 100%; }
+          th, td { border: 1px solid #ddd; padding: 8px; }
+          </style>")
+
+    ;; ------------------ 体验优化 ------------------
+    ;; 让 Org 文件打开时自动折叠
+    (setq org-startup-folded 'overview)
+
+    ;; 配置 Org Agenda
+    (setq org-agenda-files '("~/Documents/org/agenda.org")) ;; 你的 Agenda 文件路径
+    (global-set-key (kbd "C-c a") 'org-agenda)
+
+    ;; ------------------ Evil Mode 集成 ------------------
+    (use-package evil-org
+      :ensure t
+      :after org
+      :hook (org-mode . evil-org-mode)
+      :config
+      (require 'evil-org-agenda)
+      (evil-org-agenda-set-keys))
+
+    ;; ------------------ 保存时自动 tangle ------------------
+    (add-hook 'org-mode-hook
+              (lambda ()
+                (when (string-equal (buffer-file-name) (expand-file-name "~/.emacs.e/config.org"))
+                  (add-hook 'after-save-hook 'org-babel-tangle 'append 'local))))
+  #+end_src
+* Project Management
+#+begin_src emacs-lisp :tangle ./config.el
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode 1))
+
+#+end_src
+  
+* IDE Configuration
+* Evil Mode and Keybindings
+** Evil Mode and Whichkey
+#+BEGIN_SRC emacs-lisp :tangle ./config.el
+
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 1))
+
+(use-package general
+  :config
+  (general-create-definer leader-keys
+    :keymaps '(normal insert visual emacs)
+    :prefix "SPC"
+    :global-prefix "C-SPC"))
+
+
+;; 确保 evil-want-keybinding 设置正确，防止 evil-collection 警告
+(setq evil-want-keybinding nil)
+
+(use-package evil
+  :init
+  (setq evil-want-integration t)
+  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-i-jump nil)
+  :config
+  (evil-mode 1)
+  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+  ;; Use visual line motions even outside of visual-line-mode buffers
+  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+(use-package evil-escape
+  :ensure t
+  :config
+  (setq-default evil-escape-key-sequence "jk") ;; 按 "jk" 触发 escape
+  (setq evil-escape-delay 0.5) ;; 设置延迟时间为 0.2 秒
+  (evil-escape-mode 1)) ;; 启用 evil-escape
+
+#+END_SRC
+
+** Keybindings
+#+begin_src emacs-lisp :tangle ./config.el
+(leader-keys
+ "SPC" '(counsel-M-x :which-key "Command(M-x)"))
+    ;; files
+    (leader-keys
+      "f"  '(:ignore t :which-key "Files")
+      "fe" '(counsel-find-file :which-key "Find files in .emacs.d")
+      "fE" '(counsel-find-file :which-key "Browse .emacs.d")
+      "ff" '(counsel-find-file :which-key "Find files")
+      "fr" '(counsel-recentf :which-key "Recent files"))
+
+    ;; windows
+    (leader-keys
+      "w"  '(:ignore t :which-key "Window")
+      "ws" '(split-window-below :which-key "Split window below")
+      "wv" '(split-window-right :which-key "Split window right")
+      "wd" '(delete-window :which-key "Close window"))
+
+    ;; Buffer
+    (leader-keys
+      "b"  '(:ignore t :which-key "Buffer")
+      "bb" '(ivy-switch-buffer :which-key "Switch buffer")
+      "bs" '(save-buffer :which-key "save buffer")
+      "bk" '(kill-buffer :which-key "kill buffer"))
+
+    ;; code
+    (leader-keys
+      "c"  '(:ignore t :which-key "Code")
+      "cb" '(compile :which-key "Build/Compile")
+      "cc" '(compile :which-key "CMake configure")
+      "cd" '(compile :which-key "Debug")
+      "ck" '(compile :which-key "CMake select kits")
+      "cr" '(recompile :which-key "Run"))
+
+    ;; projectile
+    (leader-keys
+      "p"  '(:ignore t :which-key "Project")
+      "pa" '(project-find-file :which-key "Add a project")
+      "pb" '(project-find-file :which-key "Switch to project buffer")
+      "pf" '(project-find-file :which-key "Find file in project")
+      "pp" '(project-switch-project :which-key "Switch project"))
+
+#+end_src
