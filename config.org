@@ -2,22 +2,43 @@
 #+title: Emacs From Scratch Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ./config.el :mkdirp yes
 
-* Welcome!
+* Basic 
 
-This is the configuration we've been building in the *Emacs From Scratch* series, now written as an Org Mode document.  This file generates [[file:init.el][init.el]] which can be loaded by Emacs at startup.
+** Special Configuration for Different Os ( Windows/ Macos/ Linux )
+#+begin_src emacs-lisp
+  ;; 获取系统类型
+  (cond
+    ((eq system-type 'windows-nt)
+      (setq mzn/is-windows t)))
 
-*NOTE:* If you run into any issues while using this configuration, please [[https://github.com/daviwil/emacs-from-scratch/issues/new][file an issue]] or send me an email at =david at systemcrafters.cc=.
+    (defvar mzn/unix-dotfiles-path "~/Documents/Dotfiles")
+    (defvar mzn/unix-notes-path "~/Documents/Notes")
+    (defvar mzn/unix-agenda-path "~/Documents/Notes/Agenda")
+    (defvar mzn/unix-code-path "~/Documents/Code")
+    (defvar mzn/unix-font-size 200)
+    (defvar mzn/windows-dotfiles-path "C:\\SPBData\\Dotfiles")
+    (defvar mzn/windows-notes-path "C:\\SPBData\\Notes")
+    (defvar mzn/windows-agenda-path "C:\\SPBData\\Notes\\Agenda")
+    (defvar mzn/windows-code-path "C:\\SPBData\\Code")
+    (defvar mzn/windows-font-size 150)
 
-The following variables are used to tweak some of the configuration pieces for use in the live streams so you might need to adjust them for your local machine if you try to use this configuration directly.
+(defvar mzn/default)
+ #+end_src
+
+  This is the configuration we've been building in the *Emacs From Scratch* series, now written as an Org Mode document.  This file generates [[file:init.el][init.el]] which can be loaded by Emacs at startup.
+
+  *NOTE:* If you run into any issues while using this configuration, please [[https://github.com/daviwil/emacs-from-scratch/issues/new][file an issue]] or send me an email at =david at systemcrafters.cc=.
+
+  The following variables are used to tweak some of the configuration pieces for use in the live streams so you might need to adjust them for your local machine if you try to use this configuration directly.
 
 #+begin_src emacs-lisp
 
-;; NOTE: init.el is now generated from Emacs.org.  Please edit that file
-;;       in Emacs and init.el will be generated automatically!
+  ;; NOTE: init.el is now generated from Emacs.org.  Please edit that file
+  ;;       in Emacs and init.el will be generated automatically!
 
-;; You will most likely need to adjust this font size for your system!
-(defvar default-font-size 140)
-(defvar default-variable-font-size 140)
+  ;; You will most likely need to adjust this font size for your system!
+  (defvar default-font-size 200)
+  (defvar default-variable-font-size 200)
 
 #+end_src
 
