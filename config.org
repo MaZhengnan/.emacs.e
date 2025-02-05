@@ -1,370 +1,680 @@
-#+TITLE Emacs Configuration
+Content-Type: text/enriched
+Text-Width: 70
 
-* Basic Cofiguration
+<x-color><param>#8995ba</param>#+TITLE Emacs Configuration</x-color>
+
+<bold><x-color><param>#88C0D0</param><x-display><param>#("◉" 0 1 (face org-modern-symbol))</param>*</x-display> Basic Cofiguration</x-color></bold>
 This part is consist of 'Basic', 'UI', 'Search' and so on.
-** Basic Configura
-#+BEGIN_SRC emacs-lisp :tangle ./config.el
-    ;;------------------------Startup------------------------
-    (scroll-bar-mode -1)        ; Disable visible scrollbar
-    (tool-bar-mode -1)          ; Disable the toolbar
-    (tooltip-mode -1)           ; Disable tooltips
-    (menu-bar-mode -1)            ; Disable the menu bar
-    (set-fringe-mode 10)        ; Give some breathing room
-    (setq inhibit-startup-message t)
-  (blink-cursor-mode -1)  ;; 禁用光标闪烁
-    (setq visible-bell nil)
-    (column-number-mode)
-    (global-display-line-numbers-mode t)
-    (setq ring-bell-function 'ignore)
 
-    (set-face-attribute 'default nil :font "FiraMono Nerd Font" :height 160)
-    (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+<bold><x-color><param>#81A1C1</param><x-display><param>#("○" 0 1 (face org-modern-symbol))</param>**</x-display> Paths</x-color></bold>
 
-    (setq package-user-dir "~/.emacs.e/packages/")
-  (recentf-mode 1)  ;; 启用 recentf 记录最近打开的文件
-(setq recentf-max-menu-items 25)
-(setq recentf-max-saved-items 50)
-(run-with-idle-timer 30 t 'recentf-save-list) ;; 定期保存 recentf 列表
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+begin_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>src</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
 
-#+END_SRC
+</x-color></x-bg-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>
 
-** Package Management
-#+BEGIN_SRC emacs-lisp :tangle ./config.el
-(require 'package)
+</x-color></x-bg-color>#+end_src
+<x-display><param>#("○" 0 1 (face org-modern-symbol))</param><bold><x-color><param>#81A1C1</param>**</x-color></bold></x-display><bold><x-color><param>#81A1C1</param> Basic Configura</x-color></bold>
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+BEGIN_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>SRC</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
+</x-color></x-bg-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>;;<x-color><param>#6272a4</param>------------------------Startup------------------------
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/")
-                         ("org" . "https://orgmode.org/elpa/")
-                         ("elpa" . "https://elpa.gnu.org/packages/")))
+</x-color>
 
-(package-initialize)
-(unless package-archive-contents
- (package-refresh-contents))
+;; <x-color><param>#6272a4</param>Disable visible scrollbar
 
-;; Initialize use-package on non-Linux platforms
-(unless (package-installed-p 'use-package)
-   (package-install 'use-package))
+</x-color><x-color><param>#61bfff</param>(</x-color>scroll-bar-mode -1<x-color><param>#61bfff</param>)</x-color>
 
-(require 'use-package)
-(setq use-package-always-ensure t)
+;; <x-color><param>#6272a4</param>Disable the toolbar
 
-#+END_SRC
+</x-color><x-color><param>#61bfff</param>(</x-color>tool-bar-mode -1<x-color><param>#61bfff</param>)</x-color>          
 
-* Search Enhanced
+;; <x-color><param>#6272a4</param>Disable tooltips
+</x-color><x-color><param>#61bfff</param>(</x-color>tooltip-mode -1<x-color><param>#61bfff</param>)</x-color>           
+
+;; <x-color><param>#6272a4</param>Disable the menu bar
+</x-color><x-color><param>#61bfff</param>(</x-color>menu-bar-mode -1<x-color><param>#61bfff</param>)</x-color>            
+
+;; <x-color><param>#6272a4</param>Give some breathing room
+</x-color><x-color><param>#61bfff</param>(</x-color>set-fringe-mode 10<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Set column number
+</x-color><x-color><param>#61bfff</param>(</x-color>column-number-mode<x-color><param>#61bfff</param>)</x-color>
+
+<x-color><param>#61bfff</param>(</x-color>global-display-line-numbers-mode t<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Disable cursor blinking
+</x-color><x-color><param>#61bfff</param>(</x-color>blink-cursor-mode -1<x-color><param>#61bfff</param>)</x-color>  
+
+;; <x-color><param>#6272a4</param>Disable startup message
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> inhibit-startup-message t<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Disable the wrong bell
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> visible-bell nil<x-color><param>#61bfff</param>)</x-color>
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> ring-bell-function 'ignore<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Setup the font
+
+</x-color><x-color><param>#61bfff</param>(</x-color>set-face-attribute 'default nil <x-color><param>#ffb86c</param>:font</x-color> <x-color><param>#f1fa8c</param>"FiraMono Nerd Font"</x-color> <x-color><param>#ffb86c</param>:height</x-color> 160<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Set the global escape key to ESC
+</x-color><x-color><param>#61bfff</param>(</x-color>global-set-key <x-color><param>#ff79c6</param>(</x-color>kbd <x-color><param>#f1fa8c</param>"<<escape>"</x-color><x-color><param>#ff79c6</param>)</x-color> 'keyboard-escape-quit<x-color><param>#61bfff</param>)</x-color>
+
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> package-user-dir <x-color><param>#f1fa8c</param>"~/.emacs.e/packages/"</x-color><x-color><param>#61bfff</param>)</x-color>
+;; <x-color><param>#6272a4</param>Emacs window maximize 
+</x-color><x-color><param>#61bfff</param>(</x-color>add-hook 'emacs-startup-hook 'toggle-frame-maximized<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Ensure Emacs window maximize when create new file and window 
+</x-color><x-color><param>#61bfff</param>(</x-color>add-to-list 'default-frame-alist '<x-color><param>#ff79c6</param>(</x-color>fullscreen . maximized<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Use the "recentf" to record the recent open files
+
+</x-color><x-color><param>#61bfff</param>(</x-color>recentf-mode 1<x-color><param>#61bfff</param>)</x-color>  
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> recentf-max-menu-items 25<x-color><param>#61bfff</param>)</x-color>
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> recentf-max-saved-items 50<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Periodically save the recentf list
+</x-color><x-color><param>#61bfff</param>(</x-color>run-with-idle-timer 30 t 'recentf-save-list<x-color><param>#61bfff</param>)</x-color> 
+</x-color></x-bg-color>#+END_SRC
+
+<x-display><param>#("○" 0 1 (face org-modern-symbol))</param><bold><x-color><param>#81A1C1</param>**</x-color></bold></x-display><bold><x-color><param>#81A1C1</param> Package Management</x-color></bold>
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+BEGIN_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>SRC</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
+</x-color></x-bg-color><x-color><param>#61bfff</param><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>(</x-color></x-bg-color></x-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param><x-color><param>#ff79c6</param>require</x-color> '<x-color><param>#8be9fd</param>package</x-color><x-color><param>#61bfff</param>)</x-color>
+
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> package-archives '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"melpa"</x-color> . <x-color><param>#f1fa8c</param>"https://melpa.org/packages/"</x-color><x-color><param>#50fa7b</param>)</x-color>
+
+                         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"org"</x-color> . <x-color><param>#f1fa8c</param>"https://orgmode.org/elpa/"</x-color><x-color><param>#50fa7b</param>)</x-color>
+                         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"elpa"</x-color> . <x-color><param>#f1fa8c</param>"https://elpa.gnu.org/packages/"</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+<x-color><param>#61bfff</param>(</x-color>package-initialize<x-color><param>#61bfff</param>)</x-color>
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>unless</x-color> package-archive-contents
+ <x-color><param>#ff79c6</param>(</x-color>package-refresh-contents<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Initialize use-package on non-Linux platforms
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>unless</x-color> <x-color><param>#ff79c6</param>(</x-color>package-installed-p 'use-package<x-color><param>#ff79c6</param>)</x-color>
+   <x-color><param>#ff79c6</param>(</x-color>package-install 'use-package<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>require</x-color> '<x-color><param>#8be9fd</param>use-package</x-color><x-color><param>#61bfff</param>)</x-color>
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> use-package-always-ensure t<x-color><param>#61bfff</param>)</x-color>
+
+</x-color></x-bg-color>#+END_SRC
+
+<x-display><param>#("◉" 0 1 (face org-modern-symbol))</param><bold><x-color><param>#88C0D0</param>*</x-color></bold></x-display><bold><x-color><param>#88C0D0</param> Search Enhanced</x-color></bold>
 Using 'ivy', 'swiper' and 'counsel'.
-#+BEGIN_SRC emacs-lisp :tangle ./config.el
-(use-package ivy
-  :diminish
-  :bind (("C-s" . swiper) ;; 搜索当前缓冲区
-         :map ivy-minibuffer-map
-         ("TAB" . ivy-alt-done)
-         ("C-j" . ivy-next-line)
-         ("C-k" . ivy-previous-line)
-         :map ivy-switch-buffer-map
-         ("C-k" . ivy-previous-line)
-         ("C-l" . ivy-done))
-  :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t
-        ivy-count-format "%d/%d " ;; 显示候选项计数
-        enable-recursive-minibuffers t))
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+BEGIN_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>SRC</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
+</x-color></x-bg-color><x-color><param>#61bfff</param><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>(</x-color></x-bg-color></x-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>ivy</x-color>
+  <x-color><param>#ffb86c</param>:diminish</x-color>
+  <x-color><param>#ffb86c</param>:bind</x-color> <x-color><param>#ff79c6</param>(</x-color><x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"C-s"</x-color> . swiper<x-color><param>#50fa7b</param>)</x-color> ;; <x-color><param>#6272a4</param>搜索当前缓冲区
+</x-color>         <x-color><param>#ffb86c</param>:map</x-color> ivy-minibuffer-map
+         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"TAB"</x-color> . ivy-alt-done<x-color><param>#50fa7b</param>)</x-color>
+         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"C-j"</x-color> . ivy-next-line<x-color><param>#50fa7b</param>)</x-color>
+         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"C-k"</x-color> . ivy-previous-line<x-color><param>#50fa7b</param>)</x-color>
+         <x-color><param>#ffb86c</param>:map</x-color> ivy-switch-buffer-map
+         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"C-k"</x-color> . ivy-previous-line<x-color><param>#50fa7b</param>)</x-color>
+         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"C-l"</x-color> . ivy-done<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>ivy-mode 1<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> ivy-use-virtual-buffers t
+        ivy-count-format <x-color><param>#f1fa8c</param>"%d/%d "</x-color> ;; <x-color><param>#6272a4</param>显示候选项计数
+</x-color>        enable-recursive-minibuffers t<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-(use-package counsel
-  :after ivy
-  :bind (("M-x" . counsel-M-x) ;; 替代默认 M-x
-         ("C-x C-f" . counsel-find-file) ;; 查找文件
-         ("C-x b" . ivy-switch-buffer) ;; 切换缓冲区
-         ("C-x C-r" . counsel-recentf)) ;; 最近文件
-  :config
-  (setq counsel-find-file-ignore-regexp "\\`\\.")) ;; 忽略隐藏文件
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>counsel</x-color>
+  <x-color><param>#ffb86c</param>:after</x-color> ivy
+  <x-color><param>#ffb86c</param>:bind</x-color> <x-color><param>#ff79c6</param>(</x-color><x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"M-x"</x-color> . counsel-M-x<x-color><param>#50fa7b</param>)</x-color> ;; <x-color><param>#6272a4</param>替代默认 M-x
+</x-color>         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"C-x C-f"</x-color> . counsel-find-file<x-color><param>#50fa7b</param>)</x-color> ;; <x-color><param>#6272a4</param>查找文件
+</x-color>         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"C-x b"</x-color> . ivy-switch-buffer<x-color><param>#50fa7b</param>)</x-color> ;; <x-color><param>#6272a4</param>切换缓冲区
+</x-color>         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"C-x C-r"</x-color> . counsel-recentf<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color> ;; <x-color><param>#6272a4</param>最近文件
+</x-color>  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> counsel-find-file-ignore-regexp <x-color><param>#f1fa8c</param>"\\`\\."</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color> ;; <x-color><param>#6272a4</param>忽略隐藏文件
+</x-color>
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>swiper</x-color>
+  <x-color><param>#ffb86c</param>:after</x-color> ivy
+  <x-color><param>#ffb86c</param>:bind</x-color> <x-color><param>#ff79c6</param>(</x-color><x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"C-s"</x-color> . swiper<x-color><param>#50fa7b</param>)</x-color>
+         <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"C-r"</x-color> . swiper-isearch-backward<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color> ;; <x-color><param>#6272a4</param>向后搜索
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>ivy-posframe</x-color>
+  <x-color><param>#ffb86c</param>:after</x-color> ivy
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> ivy-posframe-display-functions-alist
+        '<x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>swiper          . ivy-posframe-display-at-frame-center<x-color><param>#bd93f9</param>)</x-color>
+          <x-color><param>#bd93f9</param>(</x-color>complete-symbol . ivy-posframe-display-at-point<x-color><param>#bd93f9</param>)</x-color>
+          <x-color><param>#bd93f9</param>(</x-color>t               . ivy-posframe-display-at-frame-center<x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> ivy-posframe-parameters
+        '<x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>left-fringe . 10<x-color><param>#bd93f9</param>)</x-color>
+          <x-color><param>#bd93f9</param>(</x-color>right-fringe . 10<x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>ivy-posframe-mode 1<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+;; <x-color><param>#6272a4</param>让 `M-x` 显示更多信息
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> ivy-rich-display-transformers-list
+      '<x-color><param>#ff79c6</param>(</x-color>counsel-M-x
+        <x-color><param>#50fa7b</param>(</x-color><x-color><param>#ffb86c</param>:columns</x-color>
+         <x-color><param>#bd93f9</param>(</x-color><x-color><param>#0189cc</param>(</x-color>counsel-M-x-transformer <x-color><param>#61bfff</param>(</x-color><x-color><param>#ffb86c</param>:width</x-color> 40<x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color> ;; <x-color><param>#6272a4</param>显示命令名称
+</x-color>          <x-color><param>#0189cc</param>(</x-color>ivy-rich-counsel-function-docstring <x-color><param>#61bfff</param>(</x-color><x-color><param>#ffb86c</param>:face</x-color> font-lock-doc-face<x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-(use-package swiper
-  :after ivy
-  :bind (("C-s" . swiper)
-         ("C-r" . swiper-isearch-backward))) ;; 向后搜索
-(use-package ivy-posframe
-  :after ivy
-  :config
-  (setq ivy-posframe-display-functions-alist
-        '((swiper          . ivy-posframe-display-at-frame-center)
-          (complete-symbol . ivy-posframe-display-at-point)
-          (t               . ivy-posframe-display-at-frame-center)))
-  (setq ivy-posframe-parameters
-        '((left-fringe . 10)
-          (right-fringe . 10)))
-  (ivy-posframe-mode 1))
-;; 让 `M-x` 显示更多信息
-(setq ivy-rich-display-transformers-list
-      '(counsel-M-x
-        (:columns
-         ((counsel-M-x-transformer (:width 40)) ;; 显示命令名称
-          (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))))
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>ivy-rich</x-color>
+  <x-color><param>#ffb86c</param>:after</x-color> ivy
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>ivy-rich-mode 1<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color> ;; <x-color><param>#6272a4</param>启用额外信息显示
+</x-color>
+</x-color></x-bg-color>#+END_SRC
 
-(use-package ivy-rich
-  :after ivy
-  :config
-  (ivy-rich-mode 1)) ;; 启用额外信息显示
-
-#+END_SRC
-
-* UI
+<x-display><param>#("◉" 0 1 (face org-modern-symbol))</param><bold><x-color><param>#88C0D0</param>*</x-color></bold></x-display><bold><x-color><param>#88C0D0</param> UI</x-color></bold>
 This part includes theme, mode line,dashmode and treemacs.
-#+BEGIN_SRC emacs-lisp :tangle ./config.el
-;;------------------------UI------------------------
-(use-package all-the-icons)
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+BEGIN_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>SRC</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
+</x-color></x-bg-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>  ;;<x-color><param>#6272a4</param>------------------------UI------------------------
+</x-color>  <x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>all-the-icons</x-color>
+    <x-color><param>#ffb86c</param>:ensure</x-color> t<x-color><param>#61bfff</param>)</x-color>
+  <x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> dashboard-icon-type 'all-the-icons<x-color><param>#61bfff</param>)</x-color> ;; <x-color><param>#6272a4</param>启用文件图标
+</x-color>
+  <x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>doom-modeline</x-color>
+    <x-color><param>#ffb86c</param>:ensure</x-color> t
+    <x-color><param>#ffb86c</param>:init</x-color> <x-color><param>#ff79c6</param>(</x-color>doom-modeline-mode 1<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1))
+  <x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>doom-themes</x-color>
+    <x-color><param>#ffb86c</param>:init</x-color> <x-color><param>#ff79c6</param>(</x-color>load-theme 'doom-dracula t<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-(use-package doom-themes
-  :init (load-theme 'doom-dracula t))
+  <x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>rainbow-delimiters</x-color>
+    <x-color><param>#ffb86c</param>:hook</x-color> <x-color><param>#ff79c6</param>(</x-color>prog-mode . rainbow-delimiters-mode<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-(use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+  <x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>dashboard</x-color>
+  <x-color><param>#ffb86c</param>:ensure</x-color> t
+  <x-color><param>#ffb86c</param>:config</x-color>
+  ;; <x-color><param>#6272a4</param>让 Dashboard 在 Emacs 启动时运行
+</x-color>  <x-color><param>#ff79c6</param>(</x-color>dashboard-setup-startup-hook<x-color><param>#ff79c6</param>)</x-color>
 
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook)  ;; 让 Dashboard 在 Emacs 启动时运行
-  (setq inhibit-startup-message t)  ;; 禁用默认启动信息
-  (setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))  ;; 启动 Emacs 时直接进入 Dashboard
+  ;; <x-color><param>#6272a4</param>禁用默认启动信息
+</x-color>  <x-color><param>#ff79c6</param>(setq</x-color> inhibit-startup-screen t<x-color><param>#ff79c6</param>)</x-color>
 
-  ;; 设置 Logo（可以用 Emacs 官方 Logo，也可以用 Doom Emacs 风格的 ASCII 画）
-  (setq dashboard-startup-banner 'official) ;; 'official 代表使用 Emacs 官方 Logo
-  ;; (setq dashboard-startup-banner "~/.emacs.d/doom-ascii.txt") ;; 自定义 ASCII 画（可选）
+  ;; <x-color><param>#6272a4</param>让 Emacs 启动时默认进入 Dashboard
+</x-color>  <x-color><param>#ff79c6</param>(setq</x-color> initial-buffer-choice <x-color><param>#50fa7b</param>(</x-color><x-color><param>#ff79c6</param>lambda</x-color> <x-color><param>#bd93f9</param>()</x-color> <x-color><param>#bd93f9</param>(</x-color>dashboard-open<x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
 
-  ;; 设置 Dashboard 需要显示的内容
-  (setq dashboard-items '((recents  . 5)   ;; 显示最近打开的 5 个文件
-                          (bookmarks . 5)  ;; 显示书签
-                          (projects . 5)   ;; 显示 Projectile 项目
-                          (agenda . 5)))   ;; 显示最近的日程安排
+  ;; <x-color><param>#6272a4</param>设置 Logo（可使用官方 Logo 或自定义 ASCII）
+</x-color>  <x-color><param>#ff79c6</param>(setq</x-color> dashboard-startup-banner 'official<x-color><param>#ff79c6</param>)</x-color> ;; <x-color><param>#6272a4</param>使用 Emacs 官方 Logo
+</x-color>  ;; <x-color><param>#6272a4</param>(setq dashboard-startup-banner "~/.emacs.d/doom-ascii.txt") ;; Doom Emacs 风格的 ASCII 画
+</x-color>
+  ;; <x-color><param>#6272a4</param>设置 Dashboard 需要显示的内容
+</x-color>  <x-color><param>#ff79c6</param>(setq</x-color> dashboard-items '<x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>recents  . 10<x-color><param>#bd93f9</param>)</x-color>  ;; <x-color><param>#6272a4</param>最近打开的 10 个文件
+</x-color>                          <x-color><param>#bd93f9</param>(</x-color>bookmarks . 5<x-color><param>#bd93f9</param>)</x-color>  ;; <x-color><param>#6272a4</param>书签
+</x-color>                          <x-color><param>#bd93f9</param>(</x-color>projects . 5<x-color><param>#bd93f9</param>)</x-color>   ;; <x-color><param>#6272a4</param>Projectile 项目
+</x-color>                          <x-color><param>#bd93f9</param>(</x-color>agenda . 5<x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>   ;; <x-color><param>#6272a4</param>日程安排
+</x-color>
+  ;; <x-color><param>#6272a4</param>美化 UI
+</x-color>  <x-color><param>#ff79c6</param>(setq</x-color> dashboard-set-heading-icons t<x-color><param>#ff79c6</param>)</x-color>  ;; <x-color><param>#6272a4</param>显示标题前的小图标
+</x-color>  <x-color><param>#ff79c6</param>(setq</x-color> dashboard-set-file-icons t<x-color><param>#ff79c6</param>)</x-color>     ;; <x-color><param>#6272a4</param>显示文件前的小图标
+</x-color>  <x-color><param>#ff79c6</param>(setq</x-color> dashboard-set-navigator t<x-color><param>#ff79c6</param>)</x-color>      ;; <x-color><param>#6272a4</param>显示快捷键导航
+</x-color>  <x-color><param>#ff79c6</param>(setq</x-color> dashboard-center-content t<x-color><param>#ff79c6</param>)</x-color>     ;; <x-color><param>#6272a4</param>让 Dashboard 内容居中
+</x-color>
+  ;; <x-color><param>#6272a4</param>让 Footer 显示启动时间
+</x-color>  <x-color><param>#ff79c6</param>(setq</x-color> dashboard-set-footer t<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> dashboard-footer-messages '<x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"Emacs is awesome! 🚀"</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
 
-  ;; 启用 UI 美化
-  (setq dashboard-set-heading-icons t)  ;; 显示标题前的小图标
-  (setq dashboard-set-file-icons t)     ;; 显示文件前的小图标
-  (setq dashboard-set-navigator t)      ;; 显示快捷键导航
-  (setq dashboard-center-content t)     ;; 让 Dashboard 内容居中
-)
+  ;; <x-color><param>#6272a4</param>使用 `emacs-startup-hook` 确保 Dashboard 正确刷新
+</x-color>  <x-color><param>#ff79c6</param>(</x-color>add-hook 'emacs-startup-hook #'dashboard-refresh-buffer<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+; <x-color><param>#6272a4</param>让 Dashboard 启动时有 recent files
+</x-color>  ; <x-color><param>#6272a4</param>退出时自动保存最近打开的文件
+</x-color>  <x-color><param>#61bfff</param>(</x-color>add-hook 'kill-emacs-hook #'recentf-save-list<x-color><param>#61bfff</param>)</x-color>
+  ;; <x-color><param>#6272a4</param>启用 all-the-icons，让 UI 更现代化
+</x-color>
+</x-color></x-bg-color>#+END_SRC
 
-;; 启用 all-the-icons，让 UI 更现代化
-(use-package all-the-icons
-  :ensure t)
-(setq dashboard-icon-type 'all-the-icons) ;; 启用文件图标
+<x-display><param>#("◉" 0 1 (face org-modern-symbol))</param><bold><x-color><param>#88C0D0</param>*</x-color></bold></x-display><bold><x-color><param>#88C0D0</param> Org-mode</x-color></bold>
 
-;; 让 Emacs 直接启动 Dashboard，而不是 `*scratch*`
-(setq inhibit-startup-message t)
-(setq initial-buffer-choice (lambda () (get-buffer-create "*dashboard*")))
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+BEGIN_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>SRC</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
+</x-color></x-bg-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>;; <x-color><param>#6272a4</param>======================
+</x-color>;; <x-color><param>#6272a4</param>全局基础配置
+</x-color>;; <x-color><param>#6272a4</param>======================
+</x-color>;; <x-color><param>#6272a4</param>禁用启动缩进并隐藏格式标记
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-startup-indented nil
+      org-hide-emphasis-markers t
+      org-ellipsis <x-color><param>#f1fa8c</param>" ▼ "</x-color><x-color><param>#61bfff</param>)</x-color>  ;; <x-color><param>#6272a4</param>更简洁的折叠符号
+</x-color>
+;; <x-color><param>#6272a4</param>标题与结构美化
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>org-modern</x-color>
+  <x-color><param>#ffb86c</param>:ensure</x-color> t
+  <x-color><param>#ffb86c</param>:hook</x-color> <x-color><param>#ff79c6</param>(</x-color>org-mode . org-modern-mode<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> org-modern-star '<x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"◉"</x-color> <x-color><param>#f1fa8c</param>"○"</x-color> <x-color><param>#f1fa8c</param>"◆"</x-color> <x-color><param>#f1fa8c</param>"▶"</x-color> <x-color><param>#f1fa8c</param>"◇"</x-color> <x-color><param>#f1fa8c</param>"▷"</x-color> <x-color><param>#f1fa8c</param>"⦿"</x-color> <x-color><param>#f1fa8c</param>"◦"</x-color><x-color><param>#50fa7b</param>)</x-color>  ;; <x-color><param>#6272a4</param>统一标题符号
+</x-color>        <x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>  
 
-#+END_SRC
+;; <x-color><param>#6272a4</param>标题颜色层级（与 doom-nord 主题协调）
+</x-color><x-color><param>#61bfff</param>(</x-color>custom-set-faces
+ '<x-color><param>#ff79c6</param>(</x-color>org-document-title <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>t <x-color><param>#0189cc</param>(</x-color><x-color><param>#ffb86c</param>:height</x-color> 1.8 <x-color><param>#ffb86c</param>:weight</x-color> bold <x-color><param>#ffb86c</param>:foreground</x-color> <x-color><param>#f1fa8c</param>"#8FBCBB"</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
+ '<x-color><param>#ff79c6</param>(</x-color>org-level-1 <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>t <x-color><param>#0189cc</param>(</x-color><x-color><param>#ffb86c</param>:height</x-color> 1.6 <x-color><param>#ffb86c</param>:bold</x-color> t <x-color><param>#ffb86c</param>:foreground</x-color> <x-color><param>#f1fa8c</param>"#88C0D0"</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
+ '<x-color><param>#ff79c6</param>(</x-color>org-level-2 <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>t <x-color><param>#0189cc</param>(</x-color><x-color><param>#ffb86c</param>:height</x-color> 1.4 <x-color><param>#ffb86c</param>:bold</x-color> t <x-color><param>#ffb86c</param>:foreground</x-color> <x-color><param>#f1fa8c</param>"#81A1C1"</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
+ '<x-color><param>#ff79c6</param>(</x-color>org-level-3 <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>t <x-color><param>#0189cc</param>(</x-color><x-color><param>#ffb86c</param>:height</x-color> 1.2 <x-color><param>#ffb86c</param>:bold</x-color> t <x-color><param>#ffb86c</param>:foreground</x-color> <x-color><param>#f1fa8c</param>"#5E81AC"</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
+ '<x-color><param>#ff79c6</param>(</x-color>org-level-4 <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>t <x-color><param>#0189cc</param>(</x-color><x-color><param>#ffb86c</param>:height</x-color> 1.1 <x-color><param>#ffb86c</param>:bold</x-color> t <x-color><param>#ffb86c</param>:foreground</x-color> <x-color><param>#f1fa8c</param>"#B48EAD"</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-* Org-mode
+;; <x-color><param>#6272a4</param>======================
+</x-color>;; <x-color><param>#6272a4</param>代码块深度优化
+</x-color>;; <x-color><param>#6272a4</param>======================
+</x-color>;; <x-color><param>#6272a4</param>统一代码块样式
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-src-fontify-natively t     ;; <x-color><param>#6272a4</param>启用语法高亮
+</x-color>      org-src-tab-acts-natively t    ;; <x-color><param>#6272a4</param>智能缩进
+</x-color>      org-src-window-setup 'current-window
+      org-confirm-babel-evaluate nil ;; <x-color><param>#6272a4</param>禁用执行确认
+</x-color>      org-src-preserve-indentation t<x-color><param>#61bfff</param>)</x-color> ;; <x-color><param>#6272a4</param>保持原缩进
+</x-color>
+;; <x-color><param>#6272a4</param>代码块外观（与主题协调）
+</x-color><x-color><param>#61bfff</param>(</x-color>set-face-attribute 'org-block nil 
+                    <x-color><param>#ffb86c</param>:background</x-color> <x-color><param>#f1fa8c</param>"#2E3440"</x-color> 
+                    <x-color><param>#ffb86c</param>:foreground</x-color> <x-color><param>#f1fa8c</param>"#D8DEE9"</x-color>
+                    <x-color><param>#ffb86c</param>:extend</x-color> t<x-color><param>#61bfff</param>)</x-color>  ;; <x-color><param>#6272a4</param>扩展背景到行尾
+</x-color>
+;; <x-color><param>#6272a4</param>异步执行支持
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>ob-async</x-color>
+  <x-color><param>#ffb86c</param>:ensure</x-color> t
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> ob-async-no-async-languages-alist '<x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>python . t<x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>  ;; <x-color><param>#6272a4</param>Python 需要同步执行
+</x-color>  <x-color><param>#61bfff</param>)</x-color>
 
-#+BEGIN_SRC emacs-lisp :tangle ./config.el
-    ;; ------------------ 基础设置 ------------------
-    (setq org-hide-emphasis-markers t)  ;; 隐藏 *强调* /斜体/ 代码块的标记
-    (setq org-startup-indented t)       ;; 自动缩进
-    (setq org-ellipsis " ▼ ")           ;; 折叠标记
+;; <x-color><param>#6272a4</param>语言支持（按需加载）
+</x-color><x-color><param>#61bfff</param>(</x-color>org-babel-do-load-languages
+ 'org-babel-load-languages
+ '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#50fa7b</param>(</x-color>emacs-lisp . t<x-color><param>#50fa7b</param>)</x-color>
+   <x-color><param>#50fa7b</param>(</x-color>python     . t<x-color><param>#50fa7b</param>)</x-color>
+   <x-color><param>#50fa7b</param>(</x-color>shell      . t<x-color><param>#50fa7b</param>)</x-color>
+   <x-color><param>#50fa7b</param>(</x-color>C          . t<x-color><param>#50fa7b</param>)</x-color>
+   <x-color><param>#50fa7b</param>(</x-color>js         . t<x-color><param>#50fa7b</param>)</x-color>     ;; <x-color><param>#6272a4</param>新增 JavaScript 支持
+</x-color>   <x-color><param>#50fa7b</param>(</x-color>plantuml   . t<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>   ;; <x-color><param>#6272a4</param>新增 UML 支持
+</x-color>
+;; <x-color><param>#6272a4</param>======================
+</x-color>;; <x-color><param>#6272a4</param>智能编辑增强
+</x-color>;; <x-color><param>#6272a4</param>======================
+</x-color>;; <x-color><param>#6272a4</param>自动补全集成
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>cape</x-color>
+  <x-color><param>#ffb86c</param>:ensure</x-color> t
+  <x-color><param>#ffb86c</param>:hook</x-color> <x-color><param>#ff79c6</param>(</x-color>org-mode . <x-color><param>#50fa7b</param>(</x-color><x-color><param>#ff79c6</param>lambda</x-color> <x-color><param>#bd93f9</param>()</x-color>
+                     <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ff79c6</param>setq-local</x-color> completion-at-point-functions
+                                 <x-color><param>#0189cc</param>(</x-color>append completion-at-point-functions
+                                         <x-color><param>#61bfff</param>(</x-color>list #'cape-dabbrev
+                                               #'cape-file
+                                               #'cape-keyword<x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-    ;; 美化标题
-    (use-package org-modern
-      :ensure t
-      :hook (org-mode . org-modern-mode))
+;; <x-color><param>#6272a4</param>======================
+</x-color>;; <x-color><param>#6272a4</param>导出系统优化
+</x-color>;; <x-color><param>#6272a4</param>======================
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>ox-hugo</x-color>
+  <x-color><param>#ffb86c</param>:ensure</x-color> t
+  <x-color><param>#ffb86c</param>:after</x-color> ox<x-color><param>#61bfff</param>)</x-color>
 
-    ;; ------------------ 界面美化 ------------------
-    (use-package org-superstar
-      :ensure t
-      :hook (org-mode . org-superstar-mode)
-      :config
-      (setq org-superstar-headline-bullets-list '("◉" "○" "◆" "▶")))
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>ox-pandoc</x-color>
+  <x-color><param>#ffb86c</param>:ensure</x-color> t
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> org-pandoc-options '<x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>standalone . t<x-color><param>#bd93f9</param>)</x-color>
+                            <x-color><param>#bd93f9</param>(</x-color>mathjax . t<x-color><param>#bd93f9</param>)</x-color>
+                            <x-color><param>#bd93f9</param>(</x-color>number-sections . t<x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-    ;; 配置字体
-    (set-face-attribute 'default nil :font "Fira Code" :height 140)
-    (set-face-attribute 'org-document-title nil :height 180 :weight 'bold)
+;; <x-color><param>#6272a4</param>响应式 HTML 导出模板
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-html-head-extra
+      <x-color><param>#ff79c6</param>(</x-color>concat
+       <x-color><param>#f1fa8c</param>"<<link href=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css\" rel=\"stylesheet\" />\n"</x-color>
+       <x-color><param>#f1fa8c</param>"<<script src=\"https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js\"><</script>\n"</x-color>
+       <x-color><param>#f1fa8c</param>"<<style>"</x-color>
+       <x-color><param>#f1fa8c</param>"body { max-width: 90%; margin: 0 auto; padding: 2em; }"</x-color>
+       <x-color><param>#f1fa8c</param>"pre[class*=\"language-\"] { padding: 1.5em; border-radius: 0.5em; }"</x-color>
+       <x-color><param>#f1fa8c</param>"table { border-collapse: collapse; margin: 2em 0; box-shadow: 0 0 20px rgba(0,0,0,0.15); }"</x-color>
+       <x-color><param>#f1fa8c</param>"th, td { padding: 12px 15px; border-bottom: 1px solid #dddddd; }"</x-color>
+       <x-color><param>#f1fa8c</param>"th { background-color: #4C566A; color: white; }"</x-color>
+       <x-color><param>#f1fa8c</param>"tr:hover { background-color: #f5f5f5; }"</x-color>
+       <x-color><param>#f1fa8c</param>"<</style>"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-  (custom-set-faces
-   ;; 让不同层级的标题有不同的字体大小和颜色
-   '(org-level-1 ((t (:inherit outline-1 :height 1.6 :bold t :foreground "#ff79c6"))))
-   '(org-level-2 ((t (:inherit outline-2 :height 1.4 :bold t :foreground "#50fa7b"))))
-   '(org-level-3 ((t (:inherit outline-3 :height 1.2 :bold t :foreground "#8be9fd"))))
-   '(org-level-4 ((t (:inherit outline-4 :height 1.1 :bold t :foreground "#f1fa8c"))))
-   '(org-level-5 ((t (:inherit outline-5 :height 1.05 :bold t :foreground "#bd93f9"))))
-   '(org-level-6 ((t (:inherit outline-6 :height 1.0 :bold t :foreground "#ffb86c"))))
-   '(org-level-7 ((t (:inherit outline-7 :height 1.0 :bold t :foreground "#ff5555"))))
-   '(org-level-8 ((t (:inherit outline-8 :height 1.0 :bold t :foreground "#6272a4")))))
+;; <x-color><param>#6272a4</param>======================
+</x-color>;; <x-color><param>#6272a4</param>工作流集成
+</x-color>;; <x-color><param>#6272a4</param>======================
+</x-color>;; <x-color><param>#6272a4</param>动态 Agenda 文件管理
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-agenda-files <x-color><param>#ff79c6</param>(</x-color>file-expand-wildcards <x-color><param>#f1fa8c</param>"~/Documents/org/*.org"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-    ;; ------------------ 代码块优化 ------------------
-  (setq org-src-fontify-natively t) ;; 代码块高亮
-  (setq org-src-tab-acts-natively t) ;; 代码块内的 tab 也能缩进
-  (setq org-confirm-babel-evaluate nil) ;; 运行代码块不需要确认
+;; <x-color><param>#6272a4</param>智能 Tangle 配置
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>defun</x-color> <x-color><param>#50fa7b</param>my/org-tangle-if-config</x-color> <x-color><param>#ff79c6</param>()</x-color>
+  <x-color><param>#ff79c6</param>(when</x-color> <x-color><param>#50fa7b</param>(</x-color>string= <x-color><param>#bd93f9</param>(</x-color>buffer-file-name<x-color><param>#bd93f9</param>)</x-color>
+                 <x-color><param>#bd93f9</param>(</x-color>expand-file-name <x-color><param>#f1fa8c</param>"~/.emacs.d/config.org"</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>  ;; <x-color><param>#6272a4</param>使用标准路径
+</x-color>    <x-color><param>#50fa7b</param>(</x-color>org-babel-tangle<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+<x-color><param>#61bfff</param>(</x-color>add-hook 'after-save-hook #'my/org-tangle-if-config<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Evil 模式深度集成 
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>evil-org</x-color>
+  <x-color><param>#ffb86c</param>:ensure</x-color> t
+  <x-color><param>#ffb86c</param>:hook</x-color> <x-color><param>#ff79c6</param>(</x-color>org-mode . evil-org-mode<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>evil-org-set-key-theme '<x-color><param>#50fa7b</param>(</x-color>navigation insert textobjects additional calendar<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(require</x-color> '<x-color><param>#8be9fd</param>evil-org-agenda</x-color><x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>evil-org-agenda-set-keys<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+</x-color></x-bg-color>  #+end_src
+<x-display><param>#("◉" 0 1 (face org-modern-symbol))</param><bold><x-color><param>#88C0D0</param>*</x-color></bold></x-display><bold><x-color><param>#88C0D0</param> Project Management and Agenda</x-color></bold>
+<bold><x-color><param>#81A1C1</param><x-display><param>#("○" 0 1 (face org-modern-symbol))</param>**</x-display> Project Management(Projectile)</x-color></bold>
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+begin_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>src</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
+</x-color></x-bg-color><x-color><param>#61bfff</param><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>(</x-color></x-bg-color></x-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>projectile</x-color>
+  <x-color><param>#ffb86c</param>:ensure</x-color> t
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>projectile-mode 1<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+</x-color></x-bg-color>#+end_src
+<x-display><param>#("○" 0 1 (face org-modern-symbol))</param><bold><x-color><param>#81A1C1</param>**</x-color></bold></x-display><bold><x-color><param>#81A1C1</param> Agenda</x-color></bold>
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+begin_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>src</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
+</x-color></x-bg-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>;;; <x-color><param>#6272a4</param>Org Mode 完整配置
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>require</x-color> '<x-color><param>#8be9fd</param>org-agenda</x-color><x-color><param>#61bfff</param>)</x-color>
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>require</x-color> '<x-color><param>#8be9fd</param>org-capture</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>==============================
+</x-color>;; <x-color><param>#6272a4</param>1. Org 基础设置
+</x-color>;; <x-color><param>#6272a4</param>==============================
+
+</x-color>;; <x-color><param>#6272a4</param>Org 目录，存放所有 Org 文件
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-directory <x-color><param>#f1fa8c</param>"~/Documents/Notes/"</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>设置 Org Agenda 任务文件
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-agenda-files <x-color><param>#ff79c6</param>(</x-color>list <x-color><param>#f1fa8c</param>"~/Documents/Notes/tasks.org"</x-color>
+                            <x-color><param>#f1fa8c</param>"~/Documents/Notes/projects.org"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Org 文件默认扩展名
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-default-notes-file <x-color><param>#ff79c6</param>(</x-color>concat org-directory <x-color><param>#f1fa8c</param>"/inbox.org"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>让 Org 自动换行，避免长段落超出屏幕
+</x-color><x-color><param>#61bfff</param>(</x-color>add-hook 'org-mode-hook 'visual-line-mode<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>==============================
+</x-color>;; <x-color><param>#6272a4</param>2. Org Agenda 视图配置
+</x-color>;; <x-color><param>#6272a4</param>==============================
+
+</x-color>;; <x-color><param>#6272a4</param>显示未来 7 天的任务
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-agenda-span 7<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Agenda 视图自定义命令
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-agenda-custom-commands
+      '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"d"</x-color> <x-color><param>#f1fa8c</param>"今日待办"</x-color> agenda <x-color><param>#f1fa8c</param>""</x-color>
+         <x-color><param>#bd93f9</param>(</x-color><x-color><param>#0189cc</param>(</x-color>org-agenda-span 'day<x-color><param>#0189cc</param>)</x-color>
+          <x-color><param>#0189cc</param>(</x-color>org-deadline-warning-days 0<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+        <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"w"</x-color> <x-color><param>#f1fa8c</param>"本周任务"</x-color> agenda <x-color><param>#f1fa8c</param>""</x-color>
+         <x-color><param>#bd93f9</param>(</x-color><x-color><param>#0189cc</param>(</x-color>org-agenda-span 'week<x-color><param>#0189cc</param>)</x-color>
+          <x-color><param>#0189cc</param>(</x-color>org-deadline-warning-days 7<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+        <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"p"</x-color> <x-color><param>#f1fa8c</param>"项目任务"</x-color> tags-todo <x-color><param>#f1fa8c</param>"+project"</x-color>
+         <x-color><param>#bd93f9</param>(</x-color><x-color><param>#0189cc</param>(</x-color>org-agenda-overriding-header <x-color><param>#f1fa8c</param>"📌 项目任务"</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+        <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"h"</x-color> <x-color><param>#f1fa8c</param>"家庭任务"</x-color> tags-todo <x-color><param>#f1fa8c</param>"+home"</x-color>
+         <x-color><param>#bd93f9</param>(</x-color><x-color><param>#0189cc</param>(</x-color>org-agenda-overriding-header <x-color><param>#f1fa8c</param>"🏡 家庭任务"</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>让 Agenda 视图显示待办任务
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-agenda-start-on-weekday 1<x-color><param>#61bfff</param>)</x-color>  ;; <x-color><param>#6272a4</param>周一开始
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-agenda-show-future-repeats t<x-color><param>#61bfff</param>)</x-color>  ;; <x-color><param>#6272a4</param>显示重复任务
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-agenda-include-diary t<x-color><param>#61bfff</param>)</x-color>  ;; <x-color><param>#6272a4</param>显示日记
+
+</x-color>;; <x-color><param>#6272a4</param>==============================
+</x-color>;; <x-color><param>#6272a4</param>3. Org TODO 配置
+</x-color>;; <x-color><param>#6272a4</param>==============================
+
+</x-color>;; <x-color><param>#6272a4</param>自定义 TODO 状态
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-todo-keywords
+      '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#50fa7b</param>(</x-color>sequence <x-color><param>#f1fa8c</param>"TODO(t)"</x-color> <x-color><param>#f1fa8c</param>"IN-PROGRESS(i!)"</x-color> <x-color><param>#f1fa8c</param>"WAITING(w@)"</x-color> <x-color><param>#f1fa8c</param>"|"</x-color> <x-color><param>#f1fa8c</param>"DONE(d!)"</x-color> <x-color><param>#f1fa8c</param>"CANCELLED(c@)"</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>记录 TODO 状态变更的时间
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-log-done 'time<x-color><param>#61bfff</param>)</x-color>
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-log-into-drawer t<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>高亮显示已完成的任务
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-fontify-done-headline t<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>==============================
+</x-color>;; <x-color><param>#6272a4</param>4. Org Capture (快速笔记)
+</x-color>;; <x-color><param>#6272a4</param>==============================
+
+</x-color>;; <x-color><param>#6272a4</param>Capture 模板
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-capture-templates
+      '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"t"</x-color> <x-color><param>#f1fa8c</param>"📌 待办事项"</x-color> entry <x-color><param>#bd93f9</param>(</x-color>file+headline <x-color><param>#f1fa8c</param>"~/Documents/tasks.org"</x-color> <x-color><param>#f1fa8c</param>"任务"</x-color><x-color><param>#bd93f9</param>)</x-color>
+         <x-color><param>#f1fa8c</param>"* TODO %?\n  创建时间: %U\n  来源: %a\n"</x-color><x-color><param>#50fa7b</param>)</x-color>
+        <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"n"</x-color> <x-color><param>#f1fa8c</param>"📝 笔记"</x-color> entry <x-color><param>#bd93f9</param>(</x-color>file+headline <x-color><param>#f1fa8c</param>"~/Documents/tasks.org"</x-color> <x-color><param>#f1fa8c</param>"笔记"</x-color><x-color><param>#bd93f9</param>)</x-color>
+         <x-color><param>#f1fa8c</param>"* %?\n  创建时间: %U\n  来源: %a\n"</x-color><x-color><param>#50fa7b</param>)</x-color>
+        <x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"m"</x-color> <x-color><param>#f1fa8c</param>"📅 会议记录"</x-color> entry <x-color><param>#bd93f9</param>(</x-color>file+headline <x-color><param>#f1fa8c</param>"~/Documents/tasks.org"</x-color> <x-color><param>#f1fa8c</param>"会议"</x-color><x-color><param>#bd93f9</param>)</x-color>
+         <x-color><param>#f1fa8c</param>"* %? :meeting:\n  时间: %U\n  会议链接: %a\n"</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>==============================
+</x-color>;; <x-color><param>#6272a4</param>5. 快捷键绑定
+</x-color>;; <x-color><param>#6272a4</param>==============================
+
+</x-color>;; <x-color><param>#6272a4</param>绑定 Org Agenda 快捷键
+</x-color><x-color><param>#61bfff</param>(</x-color>global-set-key <x-color><param>#ff79c6</param>(</x-color>kbd <x-color><param>#f1fa8c</param>"C-c a"</x-color><x-color><param>#ff79c6</param>)</x-color> 'org-agenda<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>绑定 Org Capture 快捷键
+</x-color><x-color><param>#61bfff</param>(</x-color>global-set-key <x-color><param>#ff79c6</param>(</x-color>kbd <x-color><param>#f1fa8c</param>"C-c c"</x-color><x-color><param>#ff79c6</param>)</x-color> 'org-capture<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>绑定 Org Todo 快捷键
+</x-color><x-color><param>#61bfff</param>(</x-color>global-set-key <x-color><param>#ff79c6</param>(</x-color>kbd <x-color><param>#f1fa8c</param>"C-c t"</x-color><x-color><param>#ff79c6</param>)</x-color> 'org-todo<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>==============================
+</x-color>;; <x-color><param>#6272a4</param>6. 额外优化（可选）
+</x-color>;; <x-color><param>#6272a4</param>==============================
+
+</x-color>;; <x-color><param>#6272a4</param>让 Agenda 任务显示优先级颜色
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-priority-faces '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#50fa7b</param>(</x-color>?A . <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ffb86c</param>:foreground</x-color> <x-color><param>#f1fa8c</param>"red"</x-color> <x-color><param>#ffb86c</param>:weight</x-color> bold<x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+                           <x-color><param>#50fa7b</param>(</x-color>?B . <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ffb86c</param>:foreground</x-color> <x-color><param>#f1fa8c</param>"orange"</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+                           <x-color><param>#50fa7b</param>(</x-color>?C . <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ffb86c</param>:foreground</x-color> <x-color><param>#f1fa8c</param>"yellow"</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>让 Org Mode 自动缩进
+</x-color><x-color><param>#61bfff</param>(</x-color>add-hook 'org-mode-hook 'org-indent-mode<x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Org Agenda 美化
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-agenda-window-setup 'current-window<x-color><param>#61bfff</param>)</x-color>  ;; <x-color><param>#6272a4</param>在当前窗口打开 Agenda
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> org-agenda-sticky t<x-color><param>#61bfff</param>)</x-color>  ;; <x-color><param>#6272a4</param>让 Agenda 视图不会频繁刷新
+
+</x-color>;; <x-color><param>#6272a4</param>Org Mode 导出 Markdown
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>require</x-color> '<x-color><param>#8be9fd</param>ox-md</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Org Mode 自动保存
+</x-color><x-color><param>#61bfff</param>(</x-color>add-hook 'org-mode-hook <x-color><param>#ff79c6</param>(lambda</x-color> <x-color><param>#50fa7b</param>()</x-color> <x-color><param>#50fa7b</param>(</x-color>add-hook 'before-save-hook 'org-save-all-org-buffers nil t<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
 
-    ;; 让代码块的背景更明显
-    (use-package org
-      :config
-      (set-face-attribute 'org-block nil :background "#282c34" :foreground "#bbc2cf"))
-
-    ;; 让代码块显示行号
-    (use-package display-line-numbers
-      :hook (org-src-mode . display-line-numbers-mode))
-
-    ;; ------------------ Org Babel 代码执行 ------------------
-    (use-package ob-async :ensure t) ;; 允许异步执行代码块
-    (use-package ob-python :ensure nil)
-    (use-package ob-shell :ensure nil)
-    (use-package ob-C :ensure nil)
-
-    ;; 允许执行的代码语言
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((python . t)   ;; 运行 Python 代码
-       (shell . t)    ;; 运行 shell 代码
-       (C . t)        ;; 运行 C 语言代码
-       (emacs-lisp . t))) ;; 运行 Emacs Lisp 代码
-
-    ;; ------------------ 表格优化 ------------------
-    (use-package valign
-      :ensure t
-      :hook (org-mode . valign-mode))  ;; 让表格对齐更美观
-
-    ;; ------------------ 导出优化（PDF、HTML） ------------------
-    (use-package ox-pandoc :ensure t) ;; 使用 Pandoc 作为导出后端
-    (use-package ox-hugo :ensure t)   ;; 让 Org Mode 支持 Hugo 博客导出
-
-    ;; 让导出的 HTML 更好看
-    (setq org-html-head-extra
-          "<style>
-          body { font-family: 'Fira Code', sans-serif; line-height: 1.6; }
-          h1, h2, h3 { font-weight: bold; }
-          pre { background-color: #282c34; color: #abb2bf; padding: 10px; border-radius: 5px; }
-          table { border-collapse: collapse; width: 100%; }
-          th, td { border: 1px solid #ddd; padding: 8px; }
-          </style>")
-
-    ;; ------------------ 体验优化 ------------------
-    ;; 让 Org 文件打开时自动折叠
-    (setq org-startup-folded 'overview)
-
-    ;; 配置 Org Agenda
-    (setq org-agenda-files '("~/Documents/org/agenda.org")) ;; 你的 Agenda 文件路径
-    (global-set-key (kbd "C-c a") 'org-agenda)
-
-    ;; ------------------ Evil Mode 集成 ------------------
-    (use-package evil-org
-      :ensure t
-      :after org
-      :hook (org-mode . evil-org-mode)
-      :config
-      (require 'evil-org-agenda)
-      (evil-org-agenda-set-keys))
-
-    ;; ------------------ 保存时自动 tangle ------------------
-    (add-hook 'org-mode-hook
-              (lambda ()
-                (when (string-equal (buffer-file-name) (expand-file-name "~/.emacs.e/config.org"))
-                  (add-hook 'after-save-hook 'org-babel-tangle 'append 'local))))
-  #+end_src
-* Project Management
-#+begin_src emacs-lisp :tangle ./config.el
-(use-package projectile
-  :ensure t
-  :config
-  (projectile-mode 1))
-
-#+end_src
+</x-color></x-bg-color>#+end_src
   
-* IDE Configuration
-* Evil Mode and Keybindings
-** Evil Mode and Whichkey
-#+BEGIN_SRC emacs-lisp :tangle ./config.el
+<bold><x-color><param>#88C0D0</param><x-display><param>#("◉" 0 1 (face org-modern-symbol))</param>*</x-display> IDE Configuration</x-color></bold>
+<bold><x-color><param>#81A1C1</param><x-display><param>#("○" 0 1 (face org-modern-symbol))</param>**</x-display> CMake Configuration</x-color></bold>
+TODO:
+<x-display><param>"–"</param>-</x-display> CMake select kit
+<x-display><param>"–"</param>-</x-display> CMake debug for c/cpp (use dap)
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+BEGIN_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>SRC</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
+</x-color></x-bg-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>;;<x-color><param>#6272a4</param>-----------------CMake Mode-------------------------;;
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>cmake-mode</x-color>
+  <x-color><param>#ffb86c</param>:mode</x-color> <x-color><param>#ff79c6</param>(</x-color><x-color><param>#f1fa8c</param>"CMakeLists\\.txt\\'"</x-color> . cmake-mode<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ffb86c</param>:mode</x-color> <x-color><param>#ff79c6</param>(</x-color><x-color><param>#f1fa8c</param>"\\.cmake\\'"</x-color> . cmake-mode<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ffb86c</param>:hook</x-color> <x-color><param>#ff79c6</param>(</x-color>cmake-mode . lsp-deferred<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> cmake-tab-width 4<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-(use-package which-key
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config
-  (setq which-key-idle-delay 1))
+;; <x-color><param>#6272a4</param>general varible
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>defvar</x-color> <x-color><param>#ffc9e8</param>my-cmake-build-dir</x-color> <x-color><param>#f1fa8c</param>"build"</x-color>
+  <x-color><param>#8995ba</param>"The default build directory for CMake projects."</x-color><x-color><param>#61bfff</param>)</x-color>
 
-(use-package general
-  :config
-  (general-create-definer leader-keys
-    :keymaps '(normal insert visual emacs)
-    :prefix "SPC"
-    :global-prefix "C-SPC"))
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>defvar</x-color> <x-color><param>#ffc9e8</param>my-cmake-compiler-list</x-color>
+  <x-color><param>#ff79c6</param>(if</x-color> <x-color><param>#50fa7b</param>(</x-color>eq system-type 'darwin<x-color><param>#50fa7b</param>)</x-color>
+      '<x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"clang"</x-color> <x-color><param>#f1fa8c</param>"clang++"</x-color><x-color><param>#50fa7b</param>)</x-color>
+    '<x-color><param>#50fa7b</param>(</x-color><x-color><param>#f1fa8c</param>"gcc"</x-color> <x-color><param>#f1fa8c</param>"g++"</x-color> <x-color><param>#f1fa8c</param>"clang"</x-color> <x-color><param>#f1fa8c</param>"clang++"</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#8995ba</param>"A list of available compilers to choose from, adjusted for the system."</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>general function
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>defun</x-color> <x-color><param>#50fa7b</param>my-locate-project-root</x-color> <x-color><param>#ff79c6</param>()</x-color>
+  <x-color><param>#8995ba</param>"Locate the project root containing '<x-color><param>#8be9fd</param>CMakeLists.txt</x-color>'."</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>locate-dominating-file default-directory <x-color><param>#f1fa8c</param>"CMakeLists.txt"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>defun</x-color> <x-color><param>#50fa7b</param>my-select-compiler</x-color> <x-color><param>#ff79c6</param>()</x-color>
+  <x-color><param>#8995ba</param>"Select a compiler from `my-cmake-compiler-list`."</x-color>
+  <x-color><param>#ff79c6</param>(interactive)</x-color>
+  <x-color><param>#ff79c6</param>(let</x-color> <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>compiler <x-color><param>#0189cc</param>(</x-color>completing-read <x-color><param>#f1fa8c</param>"Select Compiler: "</x-color> my-cmake-compiler-list<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+    <x-color><param>#50fa7b</param>(</x-color>setenv <x-color><param>#f1fa8c</param>"CC"</x-color> compiler<x-color><param>#50fa7b</param>)</x-color>   ;; <x-color><param>#6272a4</param>设置 C 编译器
+</x-color>    <x-color><param>#50fa7b</param>(</x-color>setenv <x-color><param>#f1fa8c</param>"CXX"</x-color> compiler<x-color><param>#50fa7b</param>)</x-color> ;; <x-color><param>#6272a4</param>设置 C++ 编译器
+</x-color>    <x-color><param>#50fa7b</param>(</x-color>message <x-color><param>#f1fa8c</param>"Compiler set to: %s"</x-color> compiler<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>defun</x-color> <x-color><param>#50fa7b</param>my-find-executables</x-color> <x-color><param>#ff79c6</param>(</x-color>build-dir<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#8995ba</param>"Find executable files in BUILD-DIR."</x-color>
+  <x-color><param>#ff79c6</param>(let</x-color> <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>files <x-color><param>#0189cc</param>(</x-color>directory-files build-dir t <x-color><param>#f1fa8c</param>"^[<x-color><param>#bd93f9</param>^</x-color>\\.].*"</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+    <x-color><param>#50fa7b</param>(</x-color>seq-filter
+     <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ff79c6</param>lambda</x-color> <x-color><param>#0189cc</param>(</x-color>file<x-color><param>#0189cc</param>)</x-color>
+       <x-color><param>#0189cc</param>(</x-color><x-color><param>#ff79c6</param>and</x-color> <x-color><param>#61bfff</param>(</x-color>file-executable-p file<x-color><param>#61bfff</param>)</x-color> ;; <x-color><param>#6272a4</param>可执行文件
+</x-color>            <x-color><param>#61bfff</param>(</x-color>not <x-color><param>#ff79c6</param>(</x-color>file-directory-p file<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color> ;; <x-color><param>#6272a4</param>排除目录
+</x-color>     files<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>CMake 命令
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>defun</x-color> <x-color><param>#50fa7b</param>my-cmake-setup</x-color> <x-color><param>#ff79c6</param>()</x-color>
+  <x-color><param>#8995ba</param>"Run CMake to configure the project."</x-color>
+  <x-color><param>#ff79c6</param>(interactive)</x-color>
+  <x-color><param>#ff79c6</param>(let</x-color> <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>project-root <x-color><param>#0189cc</param>(</x-color>my-locate-project-root<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+    <x-color><param>#50fa7b</param>(</x-color><x-color><param>#ff79c6</param>if</x-color> project-root
+        <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ff79c6</param>let</x-color> <x-color><param>#0189cc</param>(</x-color><x-color><param>#61bfff</param>(</x-color>default-directory project-root<x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color>
+          <x-color><param>#0189cc</param>(</x-color>compile <x-color><param>#61bfff</param>(</x-color>format <x-color><param>#f1fa8c</param>"cmake -B %s -S . -DCMAKE_EXPORT_COMPILE_COMMANDS=ON"</x-color> my-cmake-build-dir<x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color>
+      <x-color><param>#bd93f9</param>(</x-color>message <x-color><param>#f1fa8c</param>"No CMakeLists.txt found in the project!"</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>defun</x-color> <x-color><param>#50fa7b</param>my-cmake-build</x-color> <x-color><param>#ff79c6</param>()</x-color>
+  <x-color><param>#8995ba</param>"Build the CMake project."</x-color>
+  <x-color><param>#ff79c6</param>(interactive)</x-color>
+  <x-color><param>#ff79c6</param>(let</x-color> <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>project-root <x-color><param>#0189cc</param>(</x-color>my-locate-project-root<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+    <x-color><param>#50fa7b</param>(</x-color><x-color><param>#ff79c6</param>if</x-color> project-root
+        <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ff79c6</param>let</x-color> <x-color><param>#0189cc</param>(</x-color><x-color><param>#61bfff</param>(</x-color>default-directory project-root<x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color>
+          <x-color><param>#0189cc</param>(</x-color>compile <x-color><param>#61bfff</param>(</x-color>format <x-color><param>#f1fa8c</param>"cmake --build %s"</x-color> my-cmake-build-dir<x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color>
+      <x-color><param>#bd93f9</param>(</x-color>message <x-color><param>#f1fa8c</param>"No CMakeLists.txt found in the project!"</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>defun</x-color> <x-color><param>#50fa7b</param>my-cmake-run</x-color> <x-color><param>#ff79c6</param>()</x-color>
+  <x-color><param>#8995ba</param>"Run the compiled CMake project."</x-color>
+  <x-color><param>#ff79c6</param>(interactive)</x-color>
+  <x-color><param>#ff79c6</param>(let*</x-color> <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>project-root <x-color><param>#0189cc</param>(</x-color>my-locate-project-root<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color>
+         <x-color><param>#bd93f9</param>(</x-color>build-dir <x-color><param>#0189cc</param>(</x-color>concat project-root my-cmake-build-dir<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color>
+         <x-color><param>#bd93f9</param>(</x-color>executables <x-color><param>#0189cc</param>(</x-color>my-find-executables build-dir<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+    <x-color><param>#50fa7b</param>(</x-color><x-color><param>#ff79c6</param>if</x-color> <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ff79c6</param>and</x-color> project-root executables<x-color><param>#bd93f9</param>)</x-color>
+        <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ff79c6</param>let</x-color> <x-color><param>#0189cc</param>(</x-color><x-color><param>#61bfff</param>(</x-color>default-directory build-dir<x-color><param>#61bfff</param>)</x-color>
+              <x-color><param>#61bfff</param>(</x-color>exe <x-color><param>#ff79c6</param>(</x-color>completing-read <x-color><param>#f1fa8c</param>"Select executable: "</x-color> executables<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color>
+          <x-color><param>#0189cc</param>(</x-color><x-color><param>#ff79c6</param>if</x-color> <x-color><param>#61bfff</param>(</x-color>eq system-type 'windows-nt<x-color><param>#61bfff</param>)</x-color>
+              <x-color><param>#61bfff</param>(</x-color>compile <x-color><param>#ff79c6</param>(</x-color>format <x-color><param>#f1fa8c</param>"%s"</x-color> <x-color><param>#50fa7b</param>(</x-color>file-name-nondirectory exe<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color> ;; <x-color><param>#6272a4</param>Windows 不需要 ./ 前缀
+</x-color>            <x-color><param>#61bfff</param>(</x-color>compile <x-color><param>#ff79c6</param>(</x-color>format <x-color><param>#f1fa8c</param>"./%s"</x-color> <x-color><param>#50fa7b</param>(</x-color>file-name-nondirectory exe<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color> ;; <x-color><param>#6272a4</param>Unix 使用 ./ 前缀
+</x-color>      <x-color><param>#bd93f9</param>(</x-color>message <x-color><param>#f1fa8c</param>"No executable found in the build directory!"</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>defun</x-color> <x-color><param>#50fa7b</param>my-cmake-debug</x-color> <x-color><param>#ff79c6</param>()</x-color>
+  <x-color><param>#8995ba</param>"Debug the CMake project."</x-color>
+  <x-color><param>#ff79c6</param>(interactive)</x-color>
+  <x-color><param>#ff79c6</param>(let*</x-color> <x-color><param>#50fa7b</param>(</x-color><x-color><param>#bd93f9</param>(</x-color>project-root <x-color><param>#0189cc</param>(</x-color>my-locate-project-root<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color>
+         <x-color><param>#bd93f9</param>(</x-color>build-dir <x-color><param>#0189cc</param>(</x-color>concat project-root my-cmake-build-dir<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color>
+         <x-color><param>#bd93f9</param>(</x-color>executables <x-color><param>#0189cc</param>(</x-color>my-find-executables build-dir<x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color>
+    <x-color><param>#50fa7b</param>(</x-color><x-color><param>#ff79c6</param>if</x-color> <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ff79c6</param>and</x-color> project-root executables<x-color><param>#bd93f9</param>)</x-color>
+        <x-color><param>#bd93f9</param>(</x-color><x-color><param>#ff79c6</param>let</x-color> <x-color><param>#0189cc</param>(</x-color><x-color><param>#61bfff</param>(</x-color>default-directory build-dir<x-color><param>#61bfff</param>)</x-color>
+              <x-color><param>#61bfff</param>(</x-color>exe <x-color><param>#ff79c6</param>(</x-color>completing-read <x-color><param>#f1fa8c</param>"Select executable to debug: "</x-color> executables<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color>
+          <x-color><param>#0189cc</param>(</x-color><x-color><param>#ff79c6</param>if</x-color> <x-color><param>#61bfff</param>(</x-color>eq system-type 'windows-nt<x-color><param>#61bfff</param>)</x-color>
+              <x-color><param>#61bfff</param>(</x-color>gdb <x-color><param>#ff79c6</param>(</x-color>format <x-color><param>#f1fa8c</param>"gdb -i=mi %s"</x-color> <x-color><param>#50fa7b</param>(</x-color>file-name-nondirectory exe<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color> ;; <x-color><param>#6272a4</param>Windows 不需要 ./ 前缀
+</x-color>            <x-color><param>#61bfff</param>(</x-color>gdb <x-color><param>#ff79c6</param>(</x-color>format <x-color><param>#f1fa8c</param>"gdb -i=mi ./ %s"</x-color> <x-color><param>#50fa7b</param>(</x-color>file-name-nondirectory exe<x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color><x-color><param>#0189cc</param>)</x-color><x-color><param>#bd93f9</param>)</x-color> ;; <x-color><param>#6272a4</param>Unix 使用 ./ 前缀
+</x-color>      <x-color><param>#bd93f9</param>(</x-color>message <x-color><param>#f1fa8c</param>"No executable found in the build directory!"</x-color><x-color><param>#bd93f9</param>)</x-color><x-color><param>#50fa7b</param>)</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+</x-color></x-bg-color>#+END_SRC
+
+<x-display><param>#("◉" 0 1 (face org-modern-symbol))</param><bold><x-color><param>#88C0D0</param>*</x-color></bold></x-display><bold><x-color><param>#88C0D0</param> Evil Mode and Keybindings</x-color></bold>
+<bold><x-color><param>#81A1C1</param><x-display><param>#("○" 0 1 (face org-modern-symbol))</param>**</x-display> Evil Mode and Whichkey</x-color></bold>
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+BEGIN_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>SRC</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
+
+</x-color></x-bg-color><x-color><param>#61bfff</param><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>(</x-color></x-bg-color></x-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>which-key</x-color>
+  <x-color><param>#ffb86c</param>:init</x-color> <x-color><param>#ff79c6</param>(</x-color>which-key-mode<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ffb86c</param>:diminish</x-color> which-key-mode
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> which-key-idle-delay 1<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>general</x-color>
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(general-create-definer</x-color> leader-keys
+    <x-color><param>#ffb86c</param>:keymaps</x-color> '<x-color><param>#50fa7b</param>(</x-color>normal insert visual emacs<x-color><param>#50fa7b</param>)</x-color>
+    <x-color><param>#ffb86c</param>:prefix</x-color> <x-color><param>#f1fa8c</param>"SPC"</x-color>
+    <x-color><param>#ffb86c</param>:global-prefix</x-color> <x-color><param>#f1fa8c</param>"C-SPC"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
 
-;; 确保 evil-want-keybinding 设置正确，防止 evil-collection 警告
-(setq evil-want-keybinding nil)
+;; <x-color><param>#6272a4</param>确保 evil-want-keybinding 设置正确，防止 evil-collection 警告
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>setq</x-color> evil-want-keybinding nil<x-color><param>#61bfff</param>)</x-color>
 
-(use-package evil
-  :init
-  (setq evil-want-integration t)
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-C-i-jump nil)
-  :config
-  (evil-mode 1)
-  (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
-  (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>evil</x-color>
+  <x-color><param>#ffb86c</param>:init</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> evil-want-integration t<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> evil-want-C-u-scroll t<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(setq</x-color> evil-want-C-i-jump nil<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>evil-mode 1<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>define-key evil-insert-state-map <x-color><param>#50fa7b</param>(</x-color>kbd <x-color><param>#f1fa8c</param>"C-g"</x-color><x-color><param>#50fa7b</param>)</x-color> 'evil-normal-state<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>define-key evil-insert-state-map <x-color><param>#50fa7b</param>(</x-color>kbd <x-color><param>#f1fa8c</param>"C-h"</x-color><x-color><param>#50fa7b</param>)</x-color> 'evil-delete-backward-char-and-join<x-color><param>#ff79c6</param>)</x-color>
 
-  ;; Use visual line motions even outside of visual-line-mode buffers
-  (evil-global-set-key 'motion "j" 'evil-next-visual-line)
-  (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+  ;; <x-color><param>#6272a4</param>Use visual line motions even outside of visual-line-mode buffers
+</x-color>  <x-color><param>#ff79c6</param>(</x-color>evil-global-set-key 'motion <x-color><param>#f1fa8c</param>"j"</x-color> 'evil-next-visual-line<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>evil-global-set-key 'motion <x-color><param>#f1fa8c</param>"k"</x-color> 'evil-previous-visual-line<x-color><param>#ff79c6</param>)</x-color>
 
-  (evil-set-initial-state 'messages-buffer-mode 'normal)
-  (evil-set-initial-state 'dashboard-mode 'normal))
+  <x-color><param>#ff79c6</param>(</x-color>evil-set-initial-state 'messages-buffer-mode 'normal<x-color><param>#ff79c6</param>)</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>evil-set-initial-state 'dashboard-mode 'normal<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-(use-package evil-collection
-  :after evil
-  :config
-  (evil-collection-init))
-(use-package evil-escape
-  :ensure t
-  :config
-  (setq-default evil-escape-key-sequence "jk") ;; 按 "jk" 触发 escape
-  (setq evil-escape-delay 0.5) ;; 设置延迟时间为 0.2 秒
-  (evil-escape-mode 1)) ;; 启用 evil-escape
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>evil-collection</x-color>
+  <x-color><param>#ffb86c</param>:after</x-color> evil
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(</x-color>evil-collection-init<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+<x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>use-package</x-color> <x-color><param>#8be9fd</param>evil-escape</x-color>
+  <x-color><param>#ffb86c</param>:ensure</x-color> t
+  <x-color><param>#ffb86c</param>:config</x-color>
+  <x-color><param>#ff79c6</param>(setq-default</x-color> evil-escape-key-sequence <x-color><param>#f1fa8c</param>"jk"</x-color><x-color><param>#ff79c6</param>)</x-color> ;; <x-color><param>#6272a4</param>按 "jk" 触发 escape
+</x-color>  <x-color><param>#ff79c6</param>(setq</x-color> evil-escape-delay 0.5<x-color><param>#ff79c6</param>)</x-color> ;; <x-color><param>#6272a4</param>设置延迟时间为 0.2 秒
+</x-color>  <x-color><param>#ff79c6</param>(</x-color>evil-escape-mode 1<x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color> ;; <x-color><param>#6272a4</param>启用 evil-escape
 
-#+END_SRC
+</x-color></x-color></x-bg-color>#+END_SRC
 
-** Keybindings
-#+begin_src emacs-lisp :tangle ./config.el
-(leader-keys
- "SPC" '(counsel-M-x :which-key "Command(M-x)"))
-    ;; files
-    (leader-keys
-      "f"  '(:ignore t :which-key "Files")
-      "fe" '(counsel-find-file :which-key "Find files in .emacs.d")
-      "fE" '(counsel-find-file :which-key "Browse .emacs.d")
-      "ff" '(counsel-find-file :which-key "Find files")
-      "fr" '(counsel-recentf :which-key "Recent files"))
+<x-display><param>#("○" 0 1 (face org-modern-symbol))</param><bold><x-color><param>#81A1C1</param>**</x-color></bold></x-display><bold><x-color><param>#81A1C1</param> Keybindings</x-color></bold>
+<x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>#+begin_</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param>src</x-color></x-bg-color><x-bg-color><param>#23242f</param><x-color><param>#6272a4</param> emacs-lisp :tangle ./config.el
+</x-color></x-bg-color><x-color><param>#61bfff</param><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param>(</x-color></x-bg-color></x-color><x-bg-color><param>#2E3440</param><x-color><param>#D8DEE9</param><x-color><param>#ff79c6</param>leader-keys</x-color>
 
-    ;; windows
-    (leader-keys
-      "w"  '(:ignore t :which-key "Window")
-      "ws" '(split-window-below :which-key "Split window below")
-      "wv" '(split-window-right :which-key "Split window right")
-      "wd" '(delete-window :which-key "Close window"))
+  <x-color><param>#f1fa8c</param>"SPC"</x-color> '<x-color><param>#ff79c6</param>(</x-color>counsel-M-x <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Command(M-x)"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
 
-    ;; Buffer
-    (leader-keys
-      "b"  '(:ignore t :which-key "Buffer")
-      "bb" '(ivy-switch-buffer :which-key "Switch buffer")
-      "bs" '(save-buffer :which-key "save buffer")
-      "bk" '(kill-buffer :which-key "kill buffer"))
+;; <x-color><param>#6272a4</param>files
 
-    ;; code
-    (leader-keys
-      "c"  '(:ignore t :which-key "Code")
-      "cb" '(compile :which-key "Build/Compile")
-      "cc" '(compile :which-key "CMake configure")
-      "cd" '(compile :which-key "Debug")
-      "ck" '(compile :which-key "CMake select kits")
-      "cr" '(recompile :which-key "Run"))
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>leader-keys</x-color>
 
-    ;; projectile
-    (leader-keys
-      "p"  '(:ignore t :which-key "Project")
-      "pa" '(project-find-file :which-key "Add a project")
-      "pb" '(project-find-file :which-key "Switch to project buffer")
-      "pf" '(project-find-file :which-key "Find file in project")
-      "pp" '(project-switch-project :which-key "Switch project"))
+  <x-color><param>#f1fa8c</param>"f"</x-color>  '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#ffb86c</param>:ignore</x-color> t <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Files"</x-color><x-color><param>#ff79c6</param>)</x-color>
 
-#+end_src
+  <x-color><param>#f1fa8c</param>"fe"</x-color> '<x-color><param>#ff79c6</param>(</x-color>counsel-find-file <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Find files in .emacs.d"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"fE"</x-color> '<x-color><param>#ff79c6</param>(</x-color>counsel-find-file <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Browse .emacs.d"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"ff"</x-color> '<x-color><param>#ff79c6</param>(</x-color>counsel-find-file <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Find files"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"fr"</x-color> '<x-color><param>#ff79c6</param>(</x-color>counsel-recentf <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Recent files"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>windows
+
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>leader-keys</x-color>
+
+  <x-color><param>#f1fa8c</param>"w"</x-color>  '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#ffb86c</param>:ignore</x-color> t <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Window"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"ws"</x-color> '<x-color><param>#ff79c6</param>(</x-color>split-window-below <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Split window below"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"wv"</x-color> '<x-color><param>#ff79c6</param>(</x-color>split-window-right <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Split window right"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"wd"</x-color> '<x-color><param>#ff79c6</param>(</x-color>delete-window <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Close window"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>Buffer
+
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>leader-keys</x-color>
+
+  <x-color><param>#f1fa8c</param>"b"</x-color>  '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#ffb86c</param>:ignore</x-color> t <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Buffer"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"bb"</x-color> '<x-color><param>#ff79c6</param>(</x-color>ivy-switch-buffer <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Switch buffer"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"bs"</x-color> '<x-color><param>#ff79c6</param>(</x-color>save-buffer <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"save buffer"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"bk"</x-color> '<x-color><param>#ff79c6</param>(</x-color>kill-buffer <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"kill buffer"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>code
+
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>leader-keys</x-color>
+
+  <x-color><param>#f1fa8c</param>"c"</x-color>  '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#ffb86c</param>:ignore</x-color> t <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Code"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"cb"</x-color> '<x-color><param>#ff79c6</param>(</x-color>my-cmake-build <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Build/Compile"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"cc"</x-color> '<x-color><param>#ff79c6</param>(</x-color>my-cmake-setup <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"CMake configure"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"cd"</x-color> '<x-color><param>#ff79c6</param>(</x-color>compile <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Debug"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"ck"</x-color> '<x-color><param>#ff79c6</param>(</x-color>compile <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"CMake select kits"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"cr"</x-color> '<x-color><param>#ff79c6</param>(</x-color>my-cmake-run <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Run"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+;; <x-color><param>#6272a4</param>projectile
+
+</x-color><x-color><param>#61bfff</param>(</x-color><x-color><param>#ff79c6</param>leader-keys</x-color>
+
+  <x-color><param>#f1fa8c</param>"p"</x-color>  '<x-color><param>#ff79c6</param>(</x-color><x-color><param>#ffb86c</param>:ignore</x-color> t <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Project"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"pa"</x-color> '<x-color><param>#ff79c6</param>(</x-color>projectile-add-known-project <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Add a project"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"pb"</x-color> '<x-color><param>#ff79c6</param>(</x-color>projectile-switch-to-buffer <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Switch to project buffer"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"pf"</x-color> '<x-color><param>#ff79c6</param>(</x-color>projectile-find-file <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Find file in project"</x-color><x-color><param>#ff79c6</param>)</x-color>
+
+  <x-color><param>#f1fa8c</param>"pp"</x-color> '<x-color><param>#ff79c6</param>(</x-color>project-switch-project <x-color><param>#ffb86c</param>:which-key</x-color> <x-color><param>#f1fa8c</param>"Switch project"</x-color><x-color><param>#ff79c6</param>)</x-color><x-color><param>#61bfff</param>)</x-color>
+
+</x-color></x-bg-color>#+end_src

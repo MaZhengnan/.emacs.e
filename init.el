@@ -12,4 +12,4 @@
 ;; (when (file-exists-p "~/.emacs.e/config.el")
 ;;   (load-file "~/.emacs.e/config.el"))
 (org-babel-load-file (expand-file-name "~/.emacs.e/config.org"))
-(add-hook 'after-init-hook 'dashboard-refresh-buffer)
+;;(add-hook 'after-init-hook 'dashboard-refresh-buffer)
