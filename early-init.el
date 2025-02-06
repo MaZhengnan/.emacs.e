@@ -1,25 +1,33 @@
-;; early-init.el 配置
+;; ~/.emacs.d/early-init.el
 
-;;设置默认编码为 UTF-8
+;; Defer garbage collection further back in the startup process
+(setq gc-cons-threshold most-positive-fixnum)
+
+; Package initialize occurs automatically, before `user-init-file' is
+;; loaded, but after `early-init-file'. We handle package
+;; initialization, so we must prevent Emacs from doing it early!
+(setq package-enable-at-startup nil)
+
+;; `use-package' is builtin since 29.
+;; It must be set before loading `use-package'.
+(setq use-package-enable-imenu-support t)
+
+;; In noninteractive sessions, prioritize non-byte-compiled source files to
+;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
+;; to skip the mtime checks on every *.elc file.
+(setq load-prefer-newer noninteractive)
+
+;; Explicitly set the prefered coding systems to avoid annoying prompt
+;; from emacs (especially on Microsoft Windows)
 (prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8)
 
-;; 确保语言环境使用 UTF-8
-(setq locale-coding-system 'utf-8)
-(set-language-environment "UTF-8")
+;; Inhibit resizing frame
+(setq frame-inhibit-implied-resize t)
 
-;; 防止 Emacs 自动选择其他编码方式
-(setq coding-system-for-read 'utf-8)
-(setq coding-system-for-write 'utf-8)
-
-;; 调整 Windows 下的文件编码
-(when (eq system-type 'windows-nt)
-  (prefer-coding-system 'utf-8-dos)
-  (set-file-name-coding-system 'utf-8-dos)
-  (set-clipboard-coding-system 'utf-8-dos))
-;; (set-charset-priority 'unicode)
-;; (prefer-coding-system 'utf-8)
-;; (setq system-time-locale "C")
+;; Faster to disable these here (before they've been initialized)
+(push '(menu-bar-lines . 0) default-frame-alist)
+(push '(tool-bar-lines . 0) default-frame-alist)
+(push '(vertical-scroll-bars) default-frame-alist)
+(when (featurep 'ns)
+  (push '(ns-transparent-titlebar . t) default-frame-alist))
+(setq-default mode-line-format nil)

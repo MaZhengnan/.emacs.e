@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#+title: Emacs Configuration
+#+title: Emacs From Scratch Configuration
 #+PROPERTY: header-args:emacs-lisp :tangle ./config.el :mkdirp yes
 
 * Tips for Use
@@ -9,40 +9,24 @@ In this document I've added links in many places that lead you to documentation 
 * Basic 
 
 ** Special Configuration for Different Os ( Windows/ Macos/ Linux )
-
-When I am using windows-10 or windows-11, I will create a new systerm environment variable named =MZN_WORK=. And set all my code, notes, workflows and dotfiles in it. 
-
 #+begin_src emacs-lisp
-;; Detect the OS type
+;; 检测操作系统类型
 (setq mzn/is-windows (eq system-type 'windows-nt))
 
-;; Define path and font size in Unix
-(defvar mzn/unix-dotfiles-path "~/Documents/dotfiles")
-(defvar mzn/unix-notes-path "~/Documents/notes")
-(defvar mzn/unix-agenda-path "~/Documents/workflows")
-(defvar mzn/unix-code-path "~/Documents/code")
+;; 定义路径和字体大小
+(defvar mzn/unix-dotfiles-path "~/Documents/Dotfiles")
+(defvar mzn/unix-notes-path "~/Documents/Notes")
+(defvar mzn/unix-agenda-path "~/Documents/Notes/Agenda")
+(defvar mzn/unix-code-path "~/Documents/Code")
 (defvar mzn/unix-font-size 200)
 
-;; Define path and font size in Windows
-(defvar mzn/windows-dotfiles-path nil)
-(defvar mzn/windows-notes-path nil)
-(defvar mzn/windows-agenda-path nil)
-(defvar mzn/windows-code-path nil)
-(defvar mzn/windows-font-size 150) ;; Ensure this variable is defined
+(defvar mzn/windows-dotfiles-path "C:\\SPBData\\Dotfiles")
+(defvar mzn/windows-notes-path "C:\\SPBData\\Notes")
+(defvar mzn/windows-agenda-path "C:\\SPBData\\Notes\\Agenda")
+(defvar mzn/windows-code-path "C:\\SPBData\\Code")
+(defvar mzn/windows-font-size 150)
 
-;; Get environment variables and assign values
-(let ((my-custom-path (getenv "MZN_WORK")))
-  (when my-custom-path
-    (setq mzn/windows-dotfiles-path (concat (file-name-as-directory my-custom-path) "dotfiles"))
-    (setq mzn/windows-notes-path (concat (file-name-as-directory my-custom-path) "notes"))
-    (setq mzn/windows-agenda-path (concat (file-name-as-directory my-custom-path) "workflows"))
-    (setq mzn/windows-code-path (concat (file-name-as-directory my-custom-path) "code"))))
-
-;; 确保环境变量已正确设置
-(if (getenv "MZN_WORK")
-    (message "环境变量 MZN_WORK 设置为: %s" (getenv "MZN_WORK"))
-  (message "环境变量 MZN_WORK 未设置"))
-;; Set the default font size based on the operating system type
+;; 根据操作系统类型设置默认字体大小
 (defvar default-font-size (if mzn/is-windows
                               mzn/windows-font-size
                             mzn/unix-font-size))
@@ -51,32 +35,20 @@ When I am using windows-10 or windows-11, I will create a new systerm environmen
                                        mzn/windows-font-size
                                      mzn/unix-font-size))
 
-;; Set paths based on the operating system type
-(defvar mzn/dotfiles-path (if mzn/is-windows
-                              mzn/windows-dotfiles-path
-                            mzn/unix-dotfiles-path))
+;; 确保变量被正确定义
+(defvar mzn/default nil)
 
-(defvar mzn/notes-path (if mzn/is-windows
-                           mzn/windows-notes-path
-                         mzn/unix-notes-path))
-
-(defvar mzn/agenda-path (if mzn/is-windows
-                            mzn/windows-agenda-path
-                          mzn/unix-agenda-path))
-
-(defvar mzn/code-path (if mzn/is-windows
-                          mzn/windows-code-path
-                        mzn/unix-code-path))
-;; Print paths to confirm
-(message "MZN_WORK: %s" (getenv "MZN_WORK"))
-(message "Dotfiles path: %s" mzn/windows-dotfiles-path)
-(message "Notes path: %s" mzn/windows-notes-path)
-(message "Agenda path: %s" mzn/windows-agenda-path)
-(message "Code path: %s" mzn/windows-code-path)
-
-
-
-#+end_src
+;; 设定路径和其他相关设置（可根据需要扩展）
+(if mzn/is-windows
+    (progn
+      (setq mzn/default 'windows)
+      ;; 在这里添加 Windows 相关的配置
+      )
+  (progn
+    (setq mzn/default 'unix)
+    ;; 在这里添加 Unix 相关的配置
+    ))
+ #+end_src
 
 ** Package System Setup
 
@@ -122,7 +94,7 @@ This section configures basic UI settings that remove unneeded elements to make 
   (menu-bar-mode -1)            ; Disable the menu bar
 
   ;; Set up the visible bell
-  (setq visible-bell nil)
+  (setq visible-bell t)
 
   (column-number-mode)
   (global-display-line-numbers-mode t)
@@ -272,139 +244,193 @@ I am using the [[https://github.com/tonsky/FiraCode][Fira Code]] and [[https://f
 
 #+end_src
 
-** Dashboard
-#+begin_src emacs-lisp :tangle no 
-
-;; 使用 use-package 配置 dashboard
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook)
-
-  ;; 设置 Dashboard 的标题
-  (setq dashboard-banner-logo-title "Welcome to Emacs!")
-
-  ;; 设置 Dashboard 的启动 banner
-  (setq dashboard-startup-banner 'official) ;; 使用 Emacs 官方 Logo
-
-  ;; 设置显示的内容
-  (setq dashboard-items '((recents  . 10)  ;; 最近打开的 10 个文件
-                          (bookmarks . 5)  ;; 书签
-                          (projects . 5)   ;; Projectile 项目
-                          (agenda . 5)     ;; 日程安排
-                          (registers . 5))) ;; 登记
-
-  ;; 美化 UI
-  (setq dashboard-set-heading-icons t)  ;; 显示标题前的小图标
-  (setq dashboard-set-file-icons t)     ;; 显示文件前的小图标
-  (setq dashboard-center-content t)     ;; 让 Dashboard 内容居中
-  (setq dashboard-set-navigator t)      ;; 显示快捷键导航
-
-  ;; 设置 Footer 显示启动时间
-  (setq dashboard-set-footer t)
-  (setq dashboard-footer-messages '("Emacs is awesome! 🚀"))
-
-  ;; 让 Dashboard 启动时有 recent files
-  (add-hook 'emacs-startup-hook #'dashboard-refresh-buffer)
-
-  ;; 配置最近文件
-  (setq recentf-max-menu-items 10)
-  (setq recentf-max-saved-items 25)
-  (recentf-mode 1)
-
-  ;; 退出时自动保存最近打开的文件
-  (add-hook 'kill-emacs-hook #'recentf-save-list))
-
-;; 延迟设置初始缓冲区，确保缓冲区已创建
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))))
-
-
-
-#+end_src
-
 * Org Mode
 
-** Basic Configuration
+[[https://orgmode.org/][Org Mode]] is one of the hallmark features of Emacs.  It is a rich document editor, project planner, task and time tracker, blogging engine, and literate coding utility all wrapped up in one package.
+
+** Better Font Faces
+
+The =org-font-setup= function configures various text faces to tweak the sizes of headings and use variable width fonts in most cases so that it looks more like we're editing a document in =org-mode=.  We switch back to fixed width (monospace) fonts for code blocks and tables so that they display correctly.
 
 #+begin_src emacs-lisp
-;; 启用 Org mode
-(require 'org)
 
-;; Set the default path of org-mode
-(setq org-directory mzn/notes-path)
+  (defun org-font-setup ()
+    ;; Replace list hyphen with dot
+    (font-lock-add-keywords 'org-mode
+                            '(("^ *\\([-]\\) "
+                               (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "◦"))))))
 
-;; Setting the default Org agenda file
-(setq org-agenda-files (list (concat mzn/agenda-path "agenda.org")))
+    ;; Set faces for heading levels
+    (dolist (face '((org-level-1 . 1.2)
+                    (org-level-2 . 1.1)
+                    (org-level-3 . 1.05)
+                    (org-level-4 . 1.0)
+                    (org-level-5 . 1.1)
+                    (org-level-6 . 1.1)
+                    (org-level-7 . 1.1)
+                    (org-level-8 . 1.1)))
+      (set-face-attribute (car face) nil :font "Cantarell" :weight 'regular :height (cdr face)))
 
-;; 设置捕获模板
-(setq org-capture-templates
-      '(("t" "Todo" entry (file+headline (concat mzn/agenda-path "tasks.org") "Todo Things")
-         "* TODO %?\n  %U\n  %i\n  %a")
-        ("n" "Scratch" entry (file+headline (concat org-directory "scratch.org") "Scratch Paper")
-         "* %?\n  %U\n  %i\n  %a")))
-(custom-set-faces
- '(org-document-title ((t (:height 1.5 :weight bold :foreground "#8FBCBB"))))
- '(org-level-1 ((t (:height 1.4 :bold t :foreground "#88C0D0"))))
- '(org-level-2 ((t (:height 1.2 :bold t :foreground "#81A1C1"))))
- '(org-level-3 ((t (:height 1.2 :bold t :foreground "#5E81AC"))))
- '(org-level-4 ((t (:height 1.2 :bold t :foreground "#B48EAD")))))
-;; ======================
-;; 代码块深度优化
-;; ======================
-;; 统一代码块样式
-(setq org-src-fontify-natively t     ;; 启用语法高亮
-      org-src-tab-acts-natively nil    ;; 智能缩进
-      org-src-window-setup 'current-window
-      org-confirm-babel-evaluate nil ;; 禁用执行确认
-      org-src-preserve-indentation t) ;; 保持原缩进
-
-;; 代码块外观（与主题协调）
-(set-face-attribute 'org-block nil 
-                    :background "#2E3440" 
-                    :foreground "#D8DEE9"
-                    :extend t)  ;; 扩展背景到行尾
-
-
-;; 设置 TODO 关键词和关键字的顺序
-(setq org-todo-keywords
-      '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELLED")))
-
-;; 设置日历和日程
-(setq org-deadline-warning-days 7)
-(setq org-agenda-start-on-weekday 1)
-
-;; 启用自动换行
-(add-hook 'org-mode-hook 'visual-line-mode)
-
-;; 设置表格对齐
-(setq org-startup-align-all-tables t)
-
-;; 美化 Org mode
-(use-package org-bullets
-  :ensure t
-  :hook (org-mode . org-bullets-mode))
-
-(use-package org-modern
-  :ensure t
-  :config
-  (setq
-   org-modern-star ["◉" "○" "✸" "✿"]
-   org-modern-hide-stars nil
-   org-modern-list '((?- . "•") (?+ . "◦") (?\* . "‣"))
-   org-modern-table-vertical 1.0
-   org-modern-table-horizontal 1.0
-   org-modern-todo-faces
-   '(("TODO" . "red")
-     ("IN-PROGRESS" . "blue")
-     ("WAITING" . "orange")
-     ("DONE" . "green")
-     ("CANCELLED" . "grey")))
-  :hook (org-mode . org-modern-mode))
+    ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+    (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
 
 #+end_src
-** Center Org Buffers
+
+** Basic Config
+
+This section contains the basic configuration for =org-mode= plus the configuration for Org agendas and capture templates.  There's a lot to unpack in here so I'd recommend watching the videos for [[https://youtu.be/VcgjTEa0kU4][Part 5]] and [[https://youtu.be/PNE-mgkZ6HM][Part 6]] for a full explanation.
+
+#+begin_src emacs-lisp
+
+  (defun org-mode-setup ()
+    (org-indent-mode)
+    (variable-pitch-mode 1)
+    (visual-line-mode 1))
+
+  (use-package org
+    :hook (org-mode . org-mode-setup)
+    :config
+    (setq org-ellipsis " ⤵")
+
+    (setq org-agenda-start-with-log-mode t)
+    (setq org-log-done 'time)
+    (setq org-log-into-drawer t)
+
+    (setq org-agenda-files
+          '("~/Projects/Code/emacs-from-scratch/OrgFiles/Tasks.org"
+            "~/Projects/Code/emacs-from-scratch/OrgFiles/Habits.org"
+            "~/Projects/Code/emacs-from-scratch/OrgFiles/Birthdays.org"))
+
+    (require 'org-habit)
+    (add-to-list 'org-modules 'org-habit)
+    (setq org-habit-graph-column 60)
+
+    (setq org-todo-keywords
+      '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+        (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+
+    (setq org-refile-targets
+      '(("Archive.org" :maxlevel . 1)
+        ("Tasks.org" :maxlevel . 1)))
+
+    ;; Save Org buffers after refiling!
+    (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+    (setq org-tag-alist
+      '((:startgroup)
+         ; Put mutually exclusive tags here
+         (:endgroup)
+         ("@errand" . ?E)
+         ("@home" . ?H)
+         ("@work" . ?W)
+         ("agenda" . ?a)
+         ("planning" . ?p)
+         ("publish" . ?P)
+         ("batch" . ?b)
+         ("note" . ?n)
+         ("idea" . ?i)))
+
+    ;; Configure custom agenda views
+    (setq org-agenda-custom-commands
+     '(("d" "Dashboard"
+       ((agenda "" ((org-deadline-warning-days 7)))
+        (todo "NEXT"
+          ((org-agenda-overriding-header "Next Tasks")))
+        (tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+
+      ("n" "Next Tasks"
+       ((todo "NEXT"
+          ((org-agenda-overriding-header "Next Tasks")))))
+
+      ("W" "Work Tasks" tags-todo "+work-email")
+
+      ;; Low-effort next actions
+      ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+       ((org-agenda-overriding-header "Low Effort Tasks")
+        (org-agenda-max-todos 20)
+        (org-agenda-files org-agenda-files)))
+
+      ("w" "Workflow Status"
+       ((todo "WAIT"
+              ((org-agenda-overriding-header "Waiting on External")
+               (org-agenda-files org-agenda-files)))
+        (todo "REVIEW"
+              ((org-agenda-overriding-header "In Review")
+               (org-agenda-files org-agenda-files)))
+        (todo "PLAN"
+              ((org-agenda-overriding-header "In Planning")
+               (org-agenda-todo-list-sublevels nil)
+               (org-agenda-files org-agenda-files)))
+        (todo "BACKLOG"
+              ((org-agenda-overriding-header "Project Backlog")
+               (org-agenda-todo-list-sublevels nil)
+               (org-agenda-files org-agenda-files)))
+        (todo "READY"
+              ((org-agenda-overriding-header "Ready for Work")
+               (org-agenda-files org-agenda-files)))
+        (todo "ACTIVE"
+              ((org-agenda-overriding-header "Active Projects")
+               (org-agenda-files org-agenda-files)))
+        (todo "COMPLETED"
+              ((org-agenda-overriding-header "Completed Projects")
+               (org-agenda-files org-agenda-files)))
+        (todo "CANC"
+              ((org-agenda-overriding-header "Cancelled Projects")
+               (org-agenda-files org-agenda-files)))))))
+
+    (setq org-capture-templates
+      `(("t" "Tasks / Projects")
+        ("tt" "Task" entry (file+olp "~/Projects/Code/emacs-from-scratch/OrgFiles/Tasks.org" "Inbox")
+             "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+
+        ("j" "Journal Entries")
+        ("jj" "Journal" entry
+             (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
+             "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
+             ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+             :clock-in :clock-resume
+             :empty-lines 1)
+        ("jm" "Meeting" entry
+             (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
+             "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
+             :clock-in :clock-resume
+             :empty-lines 1)
+
+        ("w" "Workflows")
+        ("we" "Checking Email" entry (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
+             "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
+
+        ("m" "Metrics Capture")
+        ("mw" "Weight" table-line (file+headline "~/Projects/Code/emacs-from-scratch/OrgFiles/Metrics.org" "Weight")
+         "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
+
+    (define-key global-map (kbd "C-c j")
+      (lambda () (interactive) (org-capture nil "jj")))
+
+    (org-font-setup))
+
+#+end_src
+
+*** Nicer Heading Bullets
+
+[[https://github.com/sabof/org-bullets][org-bullets]] replaces the heading stars in =org-mode= buffers with nicer looking characters that you can control.  Another option for this is [[https://github.com/integral-dw/org-superstar-mode][org-superstar-mode]] which we may cover in a later video.
+
+#+begin_src emacs-lisp
+(use-package org-bullets
+  :after org
+  :hook (org-mode . org-bullets-mode)
+  :custom
+  (org-bullets-bullet-list '("☯" "○" "●" "○" "●" "○" "●")))
+
+#+end_src
+
+*** Center Org Buffers
 
 We use [[https://github.com/joostkremers/visual-fill-column][visual-fill-column]] to center =org-mode= buffers for a more pleasing writing experience as it centers the contents of the buffer horizontally to seem more like you are editing a document.  This is really a matter of personal preference so you can remove the block below if you don't like the behavior.
 
@@ -532,7 +558,6 @@ This configuration uses [[https://evil.readthedocs.io/en/latest/index.html][evil
 
   (use-package evil-collection
     :after evil
-    :ensure t
     :config
     (evil-collection-init))
 (use-package evil-escape
@@ -584,24 +609,3 @@ This configuration uses [[https://evil.readthedocs.io/en/latest/index.html][evil
 
 #+end_src
 
-
-* To Do!
-Here is many questions or bugs in this configuration.
-** Org
-TODO: The coding error!
-This warning I can't fixed now.
-It is only in windows emacs.
-#+begin_src shell
-These default coding systems were tried to encode the following
-problematic characters in the buffer ‘ *temp file*’:
-  Coding System           Pos  Codepoint  Char
-  chinese-gbk-dos       25739  #x25C9     ◉
-                        25751  #x2738     ✸
-                        25757  #x273F     ✿
-                        25824  #x2022     •
-                        25837  #x25E6     ◦
-                          ...             
-
-However, each of them encountered characters it couldn’t encode:
-  chinese-gbk-dos cannot encode these: ◉ ✸ ✿ • ◦ ‣
-#+end_src
